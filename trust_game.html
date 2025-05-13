@@ -98,7 +98,7 @@
 </div>
 <div class="input-box">
 <label for="sendBack">How many coins do you want to send back to Player A?</label><br/>
-<input id="sendBack" min="0" type="number"/>
+<input id="sendBack" max="36" min="0" type="number"/>
 </div>
 <button onclick="submitDecision()">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px; background-color: #e74c3c; color: white;">Exit Experiment</button>
 </div>
@@ -171,17 +171,12 @@
 
 
   function submitDecision() {
-  const value = parseInt(document.getElementById("sendBack").value, 10);
-  if (isNaN(value)) {
+  const value = document.getElementById("sendBack").value;
+  if (value === "") {
     alert("Please enter the number of coins to send back.");
     return;
   }
-  if (value > totalInHand) {
-    alert(`You cannot send back more than ${totalInHand} coins.`);
-    return;
-  }
 
-  // Update trial count and navigate
   trial++;
   if (trial >= trialValues.length) {
     const order = localStorage.getItem("SurveyOrder");
@@ -192,7 +187,6 @@
     location.reload();
   }
 }
-
 
 
 
@@ -212,31 +206,6 @@ function confirmExit() {
         window.location.href = "index.html";
     }
 }
-</script>
-
-<script>
-// Auto-saved: sentBack
-localStorage.setItem("sentBack", JSON.stringify(sentBack));
-</script>
-
-<script>
-// Auto-saved: totalEachTrial
-localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-</script>
-
-<script>
-// Auto-saved: actualAverage
-localStorage.setItem("actualAverage", actualAverage.toString());
-</script>
-
-<script>
-// Auto-saved: expectedAverage
-localStorage.setItem("expectedAverage", expectedAverage.toString());
-</script>
-
-<script>
-// Auto-saved: difference
-localStorage.setItem("difference", difference.toString());
 </script>
 </body>
 </html>
