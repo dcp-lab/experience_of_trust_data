@@ -211,5 +211,30 @@ function confirmExit() {
     }
 }
 </script>
+
+<script>
+// Injected storage for sentBack
+localStorage.setItem("sentBack", JSON.stringify(sentBack));
+</script>
+
+<script>
+// Injected storage for totalEachTrial
+localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+</script>
+
+<script>
+// Injected storage for actualAverage
+localStorage.setItem("actualAverage", actualAverage.toString());
+</script>
+
+<script>
+// Injected storage for expectedAverage
+localStorage.setItem("expectedAverage", expectedAverage.toString());
+</script>
+
+<script>
+// Injected storage for difference
+localStorage.setItem("difference", difference.toString());
+</script>
 </body>
 </html>
