@@ -98,7 +98,7 @@
 </div>
 <div class="input-box">
 <label for="sendBack">How many coins do you want to send back to Player A?</label><br/>
-<input id="sendBack" max="36" min="0" type="number"/>
+<input id="sendBack" min="0" type="number"/>
 </div>
 <button onclick="submitDecision()">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px; background-color: #e74c3c; color: white;">Exit Experiment</button>
 </div>
@@ -151,6 +151,7 @@
     document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
     document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
     document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+    document.getElementById("sendBack").max = totalInHand;
   }
 
   function showGameAfterDelay() {
@@ -171,12 +172,17 @@
 
 
   function submitDecision() {
-  const value = document.getElementById("sendBack").value;
-  if (value === "") {
+  const value = parseInt(document.getElementById("sendBack").value, 10);
+  if (isNaN(value)) {
     alert("Please enter the number of coins to send back.");
     return;
   }
+  if (value > totalInHand) {
+    alert(`You cannot send back more than ${totalInHand} coins.`);
+    return;
+  }
 
+  // Update trial count and navigate
   trial++;
   if (trial >= trialValues.length) {
     const order = localStorage.getItem("SurveyOrder");
@@ -187,8 +193,6 @@
     location.reload();
   }
 }
-
-
 
   document.addEventListener("DOMContentLoaded", showGameAfterDelay);
 </script>
