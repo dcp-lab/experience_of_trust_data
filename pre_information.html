@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Information Sheet</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2, h3 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>Welcome to the Study</h2>
+<p>Before beginning the experiment, <b>please read carefully the information provided in the next page</b>.</p>
+<p><b>By clicking on "Continue", you will confirm you have read the previous information and be able to proceed with the experiment</b>.</p>
+<p>If you wish to exit the experiment, <b>you can click on the Exit button at any time</b> during the whole experiment and your data will be completely deleted.</p>
+<button onclick="window.location.href='information.html'">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

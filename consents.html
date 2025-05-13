@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Information Sheet</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2, h3 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>Consent Form For Adults Participating In Research Studies</h2>
+<p>Please complete this form after you have read the Information Sheet and/or listened to an explanation about the research.</p>
+<p><strong>Title of Study:</strong> Exploring Social and Economic Interactions</p>
+<p><strong>Department:</strong> Developmental Change and Plasticity Lab, Division of Psychology and Language Sciences</p>
+<p><strong>Name and Contact Details of the Researcher(s):</strong> Maxime Le Bourgeois; email: maxime.bourgeois.24@ucl.ac.uk</p>
+<p><strong>Name and Contact Details of the Principal Researcher:</strong> Nikolaus Steinbeis, 26 Bedford Way, London WC1H OAP, Tel: 0207-679-5396; email: n.steinbeis@ucl.ac.uk</p>
+<p><strong>Name and Contact Details of the UCL Data Protection Officer:</strong> Alexandra Potts</p>
+<p>This study has been approved by the UCL Research Ethics Committee: Project ID number: 12271/003</p>
+<p>Thank you for considering taking part in this research. The person organising the research must explain the project to you before you agree to take part. If you have any questions arising from the Information Sheet or explanation already given to you, please ask the researcher before you decide whether to join in. You will be given a copy of this Consent Form to keep and refer to at any time.</p>
+<p>I confirm that I understand that by ticking/initialing each box below I am consenting to this element of the study. I understand that it will be assumed that unticked/initialed boxes means that I DO NOT consent to that part of the study. I understand that by not giving consent for any one element that I may be deemed ineligible for the study.</p>
+<p>I confirm that I have read and understood the Information Sheet for the above study. I have had an opportunity to consider the information and what will be expected of me. I have also had the opportunity to ask questions which have been answered to my satisfaction and would like to take part in testing.</p>
+<p>I consent to taking part in this study. I understand that my personal information such as demographic data, how I do in the games and responses to questionnaires will be used for the purposes explained to me. I understand that according to data protection legislation, ‘public task’ will be the lawful basis for processing. I understand that according to data protection legislation, and ‘research purposes’ will be the lawful basis for processing special category data.</p>
+<p>I understand that I may withdraw from the study at any time without giving a reason. I understand that my participation is voluntary and that I may withdraw from the study at any time without giving a reason. I understand that if I decide to withdraw, any personal data it has provided up to that point will be deleted unless we agree otherwise.</p>
+<p>I understand that I will be able to withdraw my data up to a week after testing.</p>
+<p>I understand that all personal information will remain confidential and that all efforts will be made to ensure I cannot be identified. I understand that confidentiality will be respected subject to legal constraints and professional guidelines. I also understand that confidentiality may be limited and conditional given that the researcher team has a duty to report to the relevant authorities of possible harm/danger to participants or others. I understand that my data gathered in this study will be stored pseudonymously and securely. It will not be possible to identify me in any publications.</p>
+<p>I understand that my information may be subject to review by responsible individuals from the University for monitoring and audit purposes.</p>
+<p>I understand the potential risks of my participation and the support that will be available should I become distressed during the research.</p>
+<p>No promise or guarantee of benefits have been made to encourage me to participate.</p>
+<p>I understand that the data will not be made available to any commercial organisations but is solely the responsibility of the researchers undertaking this study.</p>
+<p>I understand that I will not benefit financially from this study or from any possible outcome it may result in in the future.</p>
+<p>I understand that I will be compensated in terms of small tokens of recognition. I understand that I will be compensated for the portion of time spent in the study if I choose to withdraw.</p>
+<p>I agree that pseudonymized research data may be used by others for future research. [No one will be able to identify you when this data is shared.]</p>
+<p>I understand that the information I have submitted will be published as a report and I wish to receive a copy of it.</p>
+<p>I hereby confirm that: I understand the exclusion criteria as detailed in the Information Sheet and explained to me by the researcher; and I do not fall under the exclusion criteria.</p>
+<p>I hereby confirm that I understand the inclusion criteria as detailed in the Information Sheet and explained to me by the researcher.</p>
+<p>I have informed the researcher of any other research in which I am currently involved or have been involved in during the past 12 months.</p>
+<p>I am aware of who I should contact if I wish to lodge a complaint.</p>
+<p>I would be happy for the data I provide to be archived at UCL Data Safe Haven where it will be used for specific research purposes, involving data analysis and dissemination of results. Disseminated results will contain no information which would allow me to be identified. The data will be stored for up to ten years, in accordance with UCL’s data storage policy.</p>
+<form id="consentForm" style="margin-top: 40px;">
+<label>
+<input name="consent_confirm" required="" type="checkbox"/>
+      I confirm that I have read and understood the consent form above and voluntarily agree to participate.
+    </label>
+<br/><br/>
+<button type="submit">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+</form>
+<script>
+    document.getElementById("consentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      localStorage.setItem("Consent", JSON.stringify({ fullConsentGiven: true }));
+      window.location.href = "explanation.html";
+    });
+  </script>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

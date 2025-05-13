@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Practice - Player B Role</title>
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<script>
+        let practiceSent = Math.floor(Math.random() * 13);  // Random 0 to 12
+        let tripled = practiceSent * 3;
+        let endowment = 12;
+        let total = tripled + endowment;
+
+        function displayTrialInfo() {
+            document.getElementById("sentValue").innerText = practiceSent;
+        }
+
+        function checkAnswers(event) {
+            event.preventDefault();
+            let userTripled = parseInt(document.getElementById("tripled").value);
+            let userEndowment = parseInt(document.getElementById("endowment").value);
+            let userTotal = parseInt(document.getElementById("total").value);
+
+            let errors = [];
+
+            if (userTripled !== tripled) errors.push("Incorrect Tripled Amount.");
+            if (userEndowment !== endowment) errors.push("Endowment should be 12.");
+            if (userTotal !== total) errors.push("Incorrect Total Available.");
+
+            let feedback = document.getElementById("feedback");
+            if (errors.length === 0) {
+                feedback.innerHTML = "<p style='color: green;'>✅ All answers correct! Proceeding...</p>";
+                setTimeout(() => { window.location.href = 'estimate.html'; }, 1500);
+            } else {
+                feedback.innerHTML = "<p style='color: red;'>" + errors.join("<br>") + "</p>";
+            }
+        }
+
+        window.onload = displayTrialInfo;
+    </script>
+</head>
+<body>
+<div class="content" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+<h2>Practice Trial: Player B Role</h2>
+<p><b>You have been assigned to a Player B role</b>.</p>
+<p>This is a practice trial. Please fill the empty boxes correctly before being able to pursue the experiment.</p>
+<p>Player A sends you: <strong id="sentValue"></strong> units.</p><br/>
+<form onsubmit="checkAnswers(event)" style="display: flex; flex-direction: column; gap: 10px;">
+<label>Tripled Amount:</label><br/>
+<input id="tripled" required="" type="number"/><br/>
+<label>Your Initial Endowment:</label><br/>
+<input id="endowment" required="" type="number"/><br/>
+<label>Total Available:</label><br/>
+<input id="total" required="" type="number"/><br/><br/>
+<button type="submit">Submit</button><button id="exitButton" onclick="confirmExit()">Exit Experiment</button>
+</form>
+<div id="feedback"></div>
+</div>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

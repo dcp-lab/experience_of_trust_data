@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Information Sheet</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2, h3 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>Consent Process</h2>
+<p>You will now be presented with the consent form.</p>
+<p>Scroll through the form and <b>tick the confirmation checkbox at the end if you agree with all statements.</b></p>
+<p>Click 'Continue' to proceed or 'Exit Experiment' to withdraw at any time.</p>
+<button onclick="window.location.href='consents.html'">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

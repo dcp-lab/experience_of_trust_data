@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Information Sheet</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2, h3 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Experiment</h1>
+  <p>This study explores emotional states and decision-making in social tasks.</p>
+  
+  <p>Please ensure you are in a quiet environment and can dedicate about 15–20 minutes to complete it.</p>
+  <button onclick="startExperiment()">Start</button>
+
+  <script>
+    function startExperiment() {
+      // Set survey and game condition
+      const condition = Math.random() < 0.5 ? "DG" : "TG";
+      const order = Math.random() < 0.5 ? "PANAS_first" : "STAIS_first";
+      localStorage.setItem("Condition", condition);
+      localStorage.setItem("SurveyOrder", order);
+      window.location.href = "pre_information.html";
+    }
+  </script>
+
+<script>
+  function generateTrials() {
+    const high = Array.from({ length: 6 }, () => Math.floor(Math.random() * 5) + 8); // 8–12
+    const any = Array.from({ length: 4 }, () => Math.floor(Math.random() * 13));    // 0–12
+    const combined = [...high, ...any].sort(() => Math.random() - 0.5);
+    localStorage.setItem("TrustTrialValues", JSON.stringify(combined));
+    localStorage.setItem("DictatorTrialValues", JSON.stringify(combined));
+    localStorage.setItem("TrustTrial", "0");
+    localStorage.removeItem("DictatorTrial");
+    localStorage.setItem("DictatorTrial", "0");
+  }
+  generateTrials();
+</script>
+
+</body>
+</html>

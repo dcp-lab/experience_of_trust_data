@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>STAIS Survey (Pre)</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    .question { margin-bottom: 20px; }
+    .option { display: inline-block; margin-right: 15px; white-space: nowrap; }
+    .scale-title { background-color: #f0f0f0; padding: 10px; border-radius: 6px; margin-bottom: 20px; line-height: 1.5; }
+    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>STAIS Survey (Pre)</h2>
+<div class="scale-title">
+<b>Instructions:</b><br/><br/>
+    A number of statements which people have used to describe themselves are given below.
+    Read each statement and then select the response that best describes how you feel <b>right now, at this moment</b>.
+    There are no right or wrong answers. Do not spend too much time on any one statement.
+  </div>
+<form id="staisForm">
+<!-- Questions -->
+<div class="question"><label>1. I feel calm</label><br/><label class="option"><input name="q0" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q0" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q0" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q0" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>2. I feel secure</label><br/><label class="option"><input name="q1" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q1" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q1" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q1" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>3. I am tense</label><br/><label class="option"><input name="q2" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q2" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q2" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q2" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>4. I feel strained</label><br/><label class="option"><input name="q3" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q3" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q3" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q3" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>5. I feel at ease</label><br/><label class="option"><input name="q4" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q4" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q4" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q4" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>6. I feel upset</label><br/><label class="option"><input name="q5" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q5" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q5" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q5" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>7. I am worried</label><br/><label class="option"><input name="q6" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q6" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q6" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q6" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>8. I feel confused</label><br/><label class="option"><input name="q7" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q7" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q7" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q7" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>9. I feel content</label><br/><label class="option"><input name="q8" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q8" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q8" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q8" required="" type="radio" value="4"/> Very much so</label> </div>
+<div class="question"><label>10. I am nervous</label><br/><label class="option"><input name="q9" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q9" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q9" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q9" required="" type="radio" value="4"/> Very much so</label> </div>
+<button type="submit">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+</form>
+<script>
+  document.getElementById("staisForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const form = new FormData(this);
+  let complete = true;
+  const responses = {};
+  for (let i = 0; i < 10; i++) {
+    const val = form.get("q" + i);
+    if (!val) complete = false;
+    responses["q" + i] = val;
+  }
+  if (!complete) {
+    alert("Please answer all questions before continuing.");
+    return;
+  }
+  localStorage.setItem("STAIS", JSON.stringify(responses));
+  const order = localStorage.getItem("SurveyOrder");
+  const task = localStorage.getItem("Condition");
+
+  if (order === "STAIS_first") {
+    window.location.href = "panas.html";
+  } else {
+    window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+  }
+  });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputs = document.querySelectorAll("input[type='radio'], input[type='range'], select");
+
+    inputs.forEach(input => {
+      const name = input.name;
+      if (!name) return;
+
+      // Find all options with the same name
+      const group = document.querySelectorAll(`[name='${name}']`);
+
+      if (group.length > 1) {
+        // Radio buttons: pick one randomly
+        const random = Math.floor(Math.random() * group.length);
+        group[random].checked = true;
+      } else if (input.type === "range") {
+        // Sliders: assign random value within range
+        const min = parseInt(input.min || "0");
+        const max = parseInt(input.max || "100");
+        input.value = Math.floor(Math.random() * (max - min + 1)) + min;
+      } else if (input.tagName === "SELECT") {
+        // Dropdown: pick random option
+        const options = input.querySelectorAll("option");
+        const random = Math.floor(Math.random() * options.length);
+        input.selectedIndex = random;
+      }
+    });
+  });
+</script>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

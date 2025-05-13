@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PANAS Survey (Pre)</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    .question { margin-bottom: 20px; }
+    .option { display: inline-block; margin-right: 15px; white-space: nowrap; }
+    .scale-title { background-color: #f0f0f0; padding: 10px; border-radius: 6px; margin-bottom: 20px; line-height: 1.5; }
+    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>PANAS Survey (Pre)</h2>
+<div class="scale-title">
+<b>Instructions:</b><br/><br/>
+  This scale consists of a number of words that describe different feelings and emotions.
+  Read each item and then select the response option that best indicates
+  how you feel <b>right now</b>.
+</div>
+<form id="panasForm">
+<div class="question"><label>1. Interested</label><br/><label class="option"><input name="Interested" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Interested" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Interested" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Interested" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Interested" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>2. Distressed</label><br/><label class="option"><input name="Distressed" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Distressed" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Distressed" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Distressed" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Distressed" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>3. Excited</label><br/><label class="option"><input name="Excited" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Excited" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Excited" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Excited" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Excited" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>4. Upset</label><br/><label class="option"><input name="Upset" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Upset" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Upset" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Upset" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Upset" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>5. Strong</label><br/><label class="option"><input name="Strong" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Strong" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Strong" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Strong" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Strong" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>6. Guilty</label><br/><label class="option"><input name="Guilty" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Guilty" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Guilty" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Guilty" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Guilty" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>7. Scared</label><br/><label class="option"><input name="Scared" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Scared" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Scared" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Scared" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Scared" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>8. Hostile</label><br/><label class="option"><input name="Hostile" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Hostile" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Hostile" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Hostile" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Hostile" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>9. Enthusiastic</label><br/><label class="option"><input name="Enthusiastic" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Enthusiastic" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Enthusiastic" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Enthusiastic" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Enthusiastic" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>10. Proud</label><br/><label class="option"><input name="Proud" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Proud" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Proud" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Proud" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Proud" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>11. Irritable</label><br/><label class="option"><input name="Irritable" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Irritable" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Irritable" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Irritable" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Irritable" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>12. Alert</label><br/><label class="option"><input name="Alert" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Alert" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Alert" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Alert" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Alert" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>13. Ashamed</label><br/><label class="option"><input name="Ashamed" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Ashamed" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Ashamed" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Ashamed" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Ashamed" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>14. Inspired</label><br/><label class="option"><input name="Inspired" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Inspired" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Inspired" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Inspired" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Inspired" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>15. Nervous</label><br/><label class="option"><input name="Nervous" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Nervous" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Nervous" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Nervous" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Nervous" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>16. Determined</label><br/><label class="option"><input name="Determined" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Determined" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Determined" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Determined" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Determined" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>17. Attentive</label><br/><label class="option"><input name="Attentive" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Attentive" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Attentive" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Attentive" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Attentive" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>18. Jittery</label><br/><label class="option"><input name="Jittery" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Jittery" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Jittery" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Jittery" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Jittery" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>19. Active</label><br/><label class="option"><input name="Active" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Active" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Active" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Active" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Active" required="" type="radio" value="5"/> Extremely</label> </div>
+<div class="question"><label>20. Afraid</label><br/><label class="option"><input name="Afraid" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Afraid" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Afraid" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Afraid" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Afraid" required="" type="radio" value="5"/> Extremely</label> </div>
+<button onclick="document.getElementById('panasForm').dispatchEvent(new Event('submit', { cancelable: true }));">
+  Continue
+</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+</form>
+<script>
+    document.getElementById("panasForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = new FormData(this);
+      const data = {};
+      let complete = true;
+      for (let item of ['Interested', 'Distressed', 'Excited', 'Upset', 'Strong', 'Guilty', 'Scared', 'Hostile', 'Enthusiastic', 'Proud', 'Irritable', 'Alert', 'Ashamed', 'Inspired', 'Nervous', 'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid']) {
+        const val = form.get(item);
+        if (!val) complete = false;
+        data[item] = val;
+      }
+      if (!complete) {
+        alert("Please complete all items.");
+        return;
+      }
+      const isPost = window.location.pathname.includes("post");
+      localStorage.setItem(isPost ? "PANAS_post" : "PANAS_pre", JSON.stringify(data));
+      const order = localStorage.getItem("SurveyOrder");
+      const task = localStorage.getItem("Condition");
+      
+      if (isPost) {
+        if (order === "PANAS_first") {
+          window.location.href = "stais_post.html";
+        } else {
+          window.location.href = "debrief.html";
+        }
+      } else {
+        if (order === "PANAS_first") {
+          window.location.href = "stais.html";
+        } else {
+          window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+        }
+      }
+    });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const inputs = document.querySelectorAll("input[type='radio'], input[type='range'], select");
+
+    inputs.forEach(input => {
+      const name = input.name;
+      if (!name) return;
+
+      // Find all options with the same name
+      const group = document.querySelectorAll(`[name='${name}']`);
+
+      if (group.length > 1) {
+        // Radio buttons: pick one randomly
+        const random = Math.floor(Math.random() * group.length);
+        group[random].checked = true;
+      } else if (input.type === "range") {
+        // Sliders: assign random value within range
+        const min = parseInt(input.min || "0");
+        const max = parseInt(input.max || "100");
+        input.value = Math.floor(Math.random() * (max - min + 1)) + min;
+      } else if (input.tagName === "SELECT") {
+        // Dropdown: pick random option
+        const options = input.querySelectorAll("option");
+        const random = Math.floor(Math.random() * options.length);
+        input.selectedIndex = random;
+      }
+    });
+  });
+</script>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>

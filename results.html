@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Download Results</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
+    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>Download Your Results</h2>
+<p>Click the button below to download your responses as a JSON file.</p>
+<button onclick="downloadResults()">Download Data</button>
+<script>
+    function downloadResults() {
+      const data = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        try {
+          data[key] = JSON.parse(localStorage.getItem(key));
+        } catch (e) {
+          data[key] = localStorage.getItem(key);
+        }
+      }
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], {{ type: "application/json" }});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "experiment_results.json";
+      a.click();
+    }
+  </script>
+
+</body>
+</html>

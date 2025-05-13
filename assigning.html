@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Waiting...</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      text-align: center;
+    }
+    h2 {
+      font-size: 24px;
+    }
+    p {
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+<div>
+<h2>Please wait...</h2>
+<p>Assigning role to players.</p>
+</div>
+<script>
+  setTimeout(() => {
+    const condition = localStorage.getItem("Condition");
+    const nextPage = condition === "TG" ? "practice_tg.html" : "practice_dg.html";
+    window.location.href = nextPage;
+  }, 3000);
+</script>
+</body>
+</html>

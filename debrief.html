@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Information Sheet</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2, h3 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+<h2>Debrief</h2>
+<p><b>Thank you for participating in this experiment.</b></p>
+<p>The purpose of this study is to <b>explore how receiving trust in economic interactions impacts individuals' well-being.</b></p>
+<p>In particular, we are interested in <b>how being trusted by another person during a decision-making task influences emotional affect and anxiety levels.</b>
+<p>You were deliberately assigned the role of <b>Player B</b>, and in each trial you received an amount (tripled) from another participant, simulating a situation of trust. 
+  Your responses during the game and in the surveys will help us better understand the psychological effects of trust-based interactions.</p>
+<p>All of your responses have been recorded and anonymized. If you have any questions or wish to know more about the study, feel free to contact the research team at <i>dcp-lab@ucl.ac.uk</i>.</p>
+<p><b>You may now close the application. Thank you again!</b></p>
+<button onclick="window.location.href='results.html'">Close</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+</p>
+
+
+<script>
+function confirmExit() {
+    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
+    if (confirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+        window.location.href = "index.html";
+    }
+}
+</script>
+</body>
+</html>
