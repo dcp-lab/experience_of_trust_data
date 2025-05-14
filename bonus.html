@@ -27,7 +27,7 @@
     }
 
     const bonus = (totalAfterPlaying * 0.002).toFixed(2);
-    const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units.<br>
+    const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units. As a reminder a monetary unit is worth £0.002.<br>
                   This corresponds to a bonus of <strong>${bonus} £</strong> that will be paid to you.`;
 
     document.getElementById("bonusSummary").innerHTML = text;
