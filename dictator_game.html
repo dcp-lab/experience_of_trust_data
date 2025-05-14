@@ -145,5 +145,22 @@ function confirmExit() {
     }
 }
 </script>
+
+<script>
+// GameResults: Save received, totalEachTrial, actual/expected average, difference (no sentBack)
+try {
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const totalEachTrial = [...received]; // identical if no sentBack
+    const actualAverage = totalEachTrial.length ? (totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length).toFixed(1) : null;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || null;
+    const difference = (actualAverage && expectedAverage) ? (actualAverage - expectedAverage).toFixed(1) : null;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage);
+    localStorage.setItem("difference", difference);
+} catch (e) {
+    console.warn("Failed to store dictator game results:", e);
+}
+</script>
 </body>
 </html>
