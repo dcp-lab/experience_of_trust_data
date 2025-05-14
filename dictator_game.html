@@ -170,9 +170,14 @@ localStorage.setItem("difference", difference.toString());
 <script>
 // GameResults: Reliable form-driven storage for Dictator Game
 function updateGameContent() {
-  // Example: tripledAmount must be accessible and set during content update
+  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
+  drawSentRow("amountSentRow", amountSent);
+  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
+  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
+  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+
   document.getElementById("inputReceived").value = tripledAmount;
-  document.getElementById("inputTotal").value = tripledAmount;
+  document.getElementById("inputTotal").value = totalInHand;
 }
 
 function submitDecision() {
