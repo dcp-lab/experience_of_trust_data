@@ -159,33 +159,44 @@ localStorage.setItem("difference", difference.toString());
 } catch(e) { console.warn(e); }
 </script>
 
+<form id="dictatorDataForm" style="display: none;">
+  <input type="hidden" name="received" id="inputReceived" />
+  <input type="hidden" name="total" id="inputTotal" />
+</form>
+
 <script>
-// GameResults: Save values from internal logic, not DOM
+// GameResults: Reliable form-driven storage for Dictator Game
+function updateGameContent() {
+  // Example: tripledAmount must be accessible and set during content update
+  document.getElementById("inputReceived").value = tripledAmount;
+  document.getElementById("inputTotal").value = tripledAmount;
+}
+
 function submitDecision() {
-    const trial = parseInt(localStorage.getItem("DictatorTrial") || "0");
-    const received = JSON.parse(localStorage.getItem("received") || "[]");
+  const trial = parseInt(localStorage.getItem("DictatorTrial") || "0");
+  const receivedVal = parseInt(document.getElementById("inputReceived").value, 10);
+  const totalVal = parseInt(document.getElementById("inputTotal").value, 10);
 
-    const tripledAmount = parseInt(document.getElementById("tripledAmount")?.textContent || "0");
-    received[trial] = tripledAmount;
-    localStorage.setItem("received", JSON.stringify(received));
+  const received = JSON.parse(localStorage.getItem("received") || "[]");
+  received[trial] = receivedVal;
+  localStorage.setItem("received", JSON.stringify(received));
 
-    const totalEachTrial = [...received];
-    const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
-    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
-    const difference = actualAverage - expectedAverage;
+  const totalEachTrial = [...received];
+  const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
+  const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+  const difference = actualAverage - expectedAverage;
 
-    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-    localStorage.setItem("actualAverage", actualAverage.toFixed(1));
-    localStorage.setItem("difference", difference.toFixed(1));
+  localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+  localStorage.setItem("actualAverage", actualAverage.toFixed(1));
+  localStorage.setItem("difference", difference.toFixed(1));
+  localStorage.setItem("DictatorTrial", (trial + 1).toString());
 
-    localStorage.setItem("DictatorTrial", (trial + 1).toString());
-
-    const order = localStorage.getItem("SurveyOrder");
-    if (trial + 1 >= JSON.parse(localStorage.getItem("DictatorTrialValues") || "[]").length) {
-        window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-    } else {
-        location.reload();
-    }
+  const order = localStorage.getItem("SurveyOrder");
+  if (trial + 1 >= JSON.parse(localStorage.getItem("DictatorTrialValues") || "[]").length) {
+    window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+  } else {
+    location.reload();
+  }
 }
 </script>
 

@@ -236,50 +236,70 @@ localStorage.setItem("difference", difference.toString());
 } catch(e) { console.warn(e); }
 </script>
 
+<form id="gameDataForm" style="display: none;">
+  <input type="hidden" name="received" id="inputReceived" />
+  <input type="hidden" name="sentBack" id="inputSentBack" />
+  <input type="hidden" name="total" id="inputTotal" />
+</form>
+
 <script>
-// GameResults: Capture values at logic point, not DOM
+// GameResults: Reliable form-driven storage
 function updateGameContent() {
-    document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
-    drawSentRow("amountSentRow", amountSent);
-    document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
-    document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
-    document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
-    document.getElementById("sendBack").max = totalInHand;
+  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
+  drawSentRow("amountSentRow", amountSent);
+  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
+  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
+  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+  document.getElementById("sendBack").max = totalInHand;
 
-    const received = JSON.parse(localStorage.getItem("received") || "[]");
-    received[trial] = tripledAmount;
-    localStorage.setItem("received", JSON.stringify(received));
+  // Populate hidden input with received value
+  document.getElementById("inputReceived").value = tripledAmount;
 }
+
 function submitDecision() {
-    const value = parseInt(document.getElementById("sendBack").value, 10);
-    if (isNaN(value)) {
-        alert("Please enter the number of coins to send back.");
-        return;
-    }
+  const sentBackVal = parseInt(document.getElementById("sendBack").value, 10);
+  if (isNaN(sentBackVal)) {
+    alert("Please enter the number of coins to send back.");
+    return;
+  }
 
-    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
-    sentBack[trial] = value;
-    localStorage.setItem("sentBack", JSON.stringify(sentBack));
+  // Get values from hidden and visible inputs
+  const receivedVal = parseInt(document.getElementById("inputReceived").value, 10);
+  const totalVal = receivedVal + sentBackVal;
 
-    const received = JSON.parse(localStorage.getItem("received") || "[]");
-    const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
-    const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
-    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
-    const difference = actualAverage - expectedAverage;
+  document.getElementById("inputSentBack").value = sentBackVal;
+  document.getElementById("inputTotal").value = totalVal;
 
-    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-    localStorage.setItem("actualAverage", actualAverage.toFixed(1));
-    localStorage.setItem("difference", difference.toFixed(1));
+  // Store values into localStorage
+  const trial = parseInt(localStorage.getItem("TrustTrial") || "0");
 
-    trial++;
-    localStorage.setItem("TrustTrial", trial.toString());
+  const received = JSON.parse(localStorage.getItem("received") || "[]");
+  const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
 
-    if (trial >= trialValues.length) {
-        const order = localStorage.getItem("SurveyOrder");
-        window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-    } else {
-        location.reload();
-    }
+  received[trial] = receivedVal;
+  sentBack[trial] = sentBackVal;
+
+  localStorage.setItem("received", JSON.stringify(received));
+  localStorage.setItem("sentBack", JSON.stringify(sentBack));
+
+  const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
+  const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
+  const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+  const difference = actualAverage - expectedAverage;
+
+  localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+  localStorage.setItem("actualAverage", actualAverage.toFixed(1));
+  localStorage.setItem("difference", difference.toFixed(1));
+
+  localStorage.setItem("TrustTrial", (trial + 1).toString());
+
+  // Proceed
+  if (trial + 1 >= JSON.parse(localStorage.getItem("TrustTrialValues") || "[]").length) {
+    const order = localStorage.getItem("SurveyOrder");
+    window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+  } else {
+    location.reload();
+  }
 }
 </script>
 
