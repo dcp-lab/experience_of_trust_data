@@ -140,5 +140,18 @@ function confirmExit() {
 // Injected storage for STAIS_Post
 localStorage.setItem("STAIS_Post", JSON.stringify(surveyResponses));
 </script>
+
+<script>
+// SurveyStorage: Save STAIS_Post responses
+try {
+    const surveyResponses = {};
+    document.querySelectorAll('input[name]:checked, input[type=text], select').forEach(input => {
+        surveyResponses[input.name] = input.value;
+    });
+    localStorage.setItem("STAIS_Post", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store STAIS_Post responses:", e);
+}
+</script>
 </body>
 </html>

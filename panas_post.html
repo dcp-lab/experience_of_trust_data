@@ -125,5 +125,18 @@ function confirmExit() {
 // Injected storage for PANAS_Post
 localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
 </script>
+
+<script>
+// SurveyStorage: Save PANAS_Post responses
+try {
+    const surveyResponses = {};
+    document.querySelectorAll('input[name]:checked, input[type=text], select').forEach(input => {
+        surveyResponses[input.name] = input.value;
+    });
+    localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store PANAS_Post responses:", e);
+}
+</script>
 </body>
 </html>
