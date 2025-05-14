@@ -38,13 +38,15 @@
 
 
 
+
+
+
 <button onclick="exportToCSV()">Download Data</button>
 
 <script>
 function exportToCSV() {
     let rows = ["Survey,Item,Value"];
 
-    // 1. CONDITION & ESTIMATE
     const condition = localStorage.getItem("Condition");
     if (condition) rows.push(`Condition,GameType,${condition}`);
 
@@ -53,7 +55,6 @@ function exportToCSV() {
         rows.push(`Estimate,ExpectedAverage,${estimate.averageExpected}`);
     }
 
-    // 2. GAME RESULTS
     const gameData = {
         amounts_received: JSON.parse(localStorage.getItem("received") || "[]"),
         amounts_sent_back: JSON.parse(localStorage.getItem("sentBack") || "[]"),
@@ -71,12 +72,10 @@ function exportToCSV() {
         }
     }
 
-    // 3. SURVEY DATA
     const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
     surveys.forEach(survey => {
         const data = JSON.parse(localStorage.getItem(survey) || "null");
         if (!data) return;
-
         if (Array.isArray(data)) {
             data.forEach((item, index) => {
                 if (typeof item === 'object') {
@@ -94,7 +93,6 @@ function exportToCSV() {
         }
     });
 
-    // Trigger CSV download
     const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
