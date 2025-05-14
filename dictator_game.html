@@ -158,29 +158,5 @@ localStorage.setItem("difference", difference.toString());
 
 } catch(e) { console.warn(e); }
 </script>
-
-<script>
-// GameResults: Append per trial values for Dictator Game
-document.addEventListener("DOMContentLoaded", () => {
-    const trialIndex = parseInt(localStorage.getItem("DictatorTrial") || "0");
-    const received = JSON.parse(localStorage.getItem("received") || "[]");
-
-    const amountReceived = parseInt(document.getElementById("tripledAmount")?.textContent || "0");
-
-    // Store received value for the trial
-    received[trialIndex] = amountReceived;
-    localStorage.setItem("received", JSON.stringify(received));
-
-    const totalEachTrial = [...received];
-    const actualAverage = totalEachTrial.length ? (totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length).toFixed(1) : null;
-    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || null;
-    const difference = (actualAverage && expectedAverage) ? (actualAverage - expectedAverage).toFixed(1) : null;
-
-    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-    localStorage.setItem("actualAverage", actualAverage);
-    localStorage.setItem("difference", difference);
-});
-</script>
-
 </body>
 </html>
