@@ -92,8 +92,8 @@ for (const [key, val] of Object.entries(gameData)) {
 
 
 // Compute and push corrected difference
-const expectedAverage = parseFloat(localStorage.getItem("expectedAverage") || "0");
-const correctedDifference = (actualAverageDivided || 0) - expectedAverage;
+const expectedAverage = parseFloat(estimate.averageExpected || "0");
+const correctedDifference = actualAverageDivided - expectedAverage;
 rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
 
     // Add "after playing" line: before - sentBack
