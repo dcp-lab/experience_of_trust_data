@@ -31,11 +31,17 @@
 
             let feedback = document.getElementById("feedback");
             if (errors.length === 0) {
-                feedback.innerHTML = "<p style='color: green;'>✅ All answers correct! Proceeding...</p>";
-                setTimeout(() => { window.location.href = "estimate.html"; }, 1500);
-            } else {
-                feedback.innerHTML = "<p style='color: red;'>" + errors.join("<br>") + "</p>";
-            }
+            feedback.innerHTML = "<p style='color: green;'>✅ All answers correct! Proceeding...</p>";
+
+            // 🧹 Clear any accidental game data
+            localStorage.removeItem("received");
+            localStorage.removeItem("sentBack");
+            localStorage.removeItem("totalEachTrial");
+            localStorage.removeItem("actualAverage");
+            localStorage.removeItem("difference");
+
+            setTimeout(() => { window.location.href = "estimate.html"; }, 1500);
+        }
         }
 
         window.onload = displayTrialInfo;
