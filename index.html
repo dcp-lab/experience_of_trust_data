@@ -27,19 +27,7 @@
     }
   </script>
 
-<script>
-  function generateTrials() {
-    const high = Array.from({ length: 6 }, () => Math.floor(Math.random() * 5) + 8); // 8–12
-    const any = Array.from({ length: 4 }, () => Math.floor(Math.random() * 13));    // 0–12
-    const combined = [...high, ...any].sort(() => Math.random() - 0.5);
-    localStorage.setItem("TrustTrialValues", JSON.stringify(combined));
-    localStorage.setItem("DictatorTrialValues", JSON.stringify(combined));
-    localStorage.setItem("TrustTrial", "0");
-    localStorage.removeItem("DictatorTrial");
-    localStorage.setItem("DictatorTrial", "0");
-  }
-  generateTrials();
-</script>
+
 
 
 
@@ -51,5 +39,18 @@ try {
     console.warn("Failed to store index.html data:", e);
 }
 </script>
+
+<script>
+function generateTrials() {
+    const lists = [[4, 11, 10, 9, 1, 11, 8, 3, 12, 11], [11, 10, 4, 1, 9, 11, 12, 11, 8, 3], [12, 11, 8, 3, 11, 9, 1, 11, 4, 10]];
+    const selected = lists[Math.floor(Math.random() * lists.length)];
+    localStorage.setItem("TrustTrialValues", JSON.stringify(selected));
+    localStorage.setItem("DictatorTrialValues", JSON.stringify(selected));
+    localStorage.setItem("TrustTrial", "0");
+    localStorage.setItem("DictatorTrial", "0");
+}
+generateTrials();
+</script>
+
 </body>
 </html>
