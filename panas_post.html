@@ -145,5 +145,21 @@ try {
     console.warn("Failed to store panas_post.html data:", e);
 }
 </script>
+
+<script>
+// PostSurveyStorage for PANAS_Post
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    if (!form) return;
+
+    form.addEventListener("submit", function() {
+        const surveyResponses = {};
+        form.querySelectorAll("input[name]:checked, input[type='text'], select").forEach(input => {
+            surveyResponses[input.name] = input.value;
+        });
+        localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
+    });
+});
+</script>
 </body>
 </html>
