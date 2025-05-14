@@ -90,12 +90,15 @@
   }
 
   function updateGameContent() {
-    document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
-    drawSentRow("amountSentRow", amountSent);
-    document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
-    document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
-    document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
-  }
+  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
+  drawSentRow("amountSentRow", amountSent);
+  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
+  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
+  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+
+  document.getElementById("inputReceived").value = tripledAmount;
+  document.getElementById("inputTotal").value = totalInHand;
+}
 
   function showGameAfterDelay() {
     if (trial < trialValues.length) {
