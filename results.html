@@ -74,12 +74,14 @@ function exportToCSV() {
     };
 
     
+let actualAverageDivided = 0;
+
 for (const [key, val] of Object.entries(gameData)) {
     if (key === "actual_average") {
         const adjusted = val / 3;
         rows.push(`GameResults,actual_average,${adjusted.toFixed(2)}`);
-        actualAverageDivided = adjusted; // store for later use
-    } else if (key !== "difference") { // we'll compute it manually later
+        actualAverageDivided = adjusted;
+    } else if (key !== "difference") {
         if (Array.isArray(val)) {
             rows.push(`GameResults,${key},"[${val.join(", ")}]"`);
         } else if (val !== null && val !== undefined) {
@@ -88,14 +90,11 @@ for (const [key, val] of Object.entries(gameData)) {
     }
 }
 
+
 // Compute and push corrected difference
 const expectedAverage = parseFloat(localStorage.getItem("expectedAverage") || "0");
 const correctedDifference = expectedAverage - (actualAverageDivided || 0);
 rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
- else if (val !== null && val !== undefined) {
-            rows.push(`GameResults,${key},${val}`);
-        }
-    }
 
     // Add "after playing" line: before - sentBack
     const before = gameData.total_amount_in_hand_before_playing || [];
