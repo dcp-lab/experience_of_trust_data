@@ -235,5 +235,53 @@ localStorage.setItem("difference", difference.toString());
 
 } catch(e) { console.warn(e); }
 </script>
+
+<script>
+// GameResults: Capture values at logic point, not DOM
+function updateGameContent() {
+    document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
+    drawSentRow("amountSentRow", amountSent);
+    document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
+    document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
+    document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+    document.getElementById("sendBack").max = totalInHand;
+
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    received[trial] = tripledAmount;
+    localStorage.setItem("received", JSON.stringify(received));
+}
+function submitDecision() {
+    const value = parseInt(document.getElementById("sendBack").value, 10);
+    if (isNaN(value)) {
+        alert("Please enter the number of coins to send back.");
+        return;
+    }
+
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+    sentBack[trial] = value;
+    localStorage.setItem("sentBack", JSON.stringify(sentBack));
+
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
+    const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+    const difference = actualAverage - expectedAverage;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage.toFixed(1));
+    localStorage.setItem("difference", difference.toFixed(1));
+
+    trial++;
+    localStorage.setItem("TrustTrial", trial.toString());
+
+    if (trial >= trialValues.length) {
+        const order = localStorage.getItem("SurveyOrder");
+        window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+    } else {
+        location.reload();
+    }
+}
+</script>
+
 </body>
 </html>

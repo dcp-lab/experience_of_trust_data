@@ -158,5 +158,36 @@ localStorage.setItem("difference", difference.toString());
 
 } catch(e) { console.warn(e); }
 </script>
+
+<script>
+// GameResults: Save values from internal logic, not DOM
+function submitDecision() {
+    const trial = parseInt(localStorage.getItem("DictatorTrial") || "0");
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+
+    const tripledAmount = parseInt(document.getElementById("tripledAmount")?.textContent || "0");
+    received[trial] = tripledAmount;
+    localStorage.setItem("received", JSON.stringify(received));
+
+    const totalEachTrial = [...received];
+    const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+    const difference = actualAverage - expectedAverage;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage.toFixed(1));
+    localStorage.setItem("difference", difference.toFixed(1));
+
+    localStorage.setItem("DictatorTrial", (trial + 1).toString());
+
+    const order = localStorage.getItem("SurveyOrder");
+    if (trial + 1 >= JSON.parse(localStorage.getItem("DictatorTrialValues") || "[]").length) {
+        window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+    } else {
+        location.reload();
+    }
+}
+</script>
+
 </body>
 </html>
