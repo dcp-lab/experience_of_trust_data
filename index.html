@@ -41,5 +41,11 @@
   generateTrials();
 </script>
 
+
+<script>// Injected storage for index.html
+try {
+localStorage.setItem("Condition", condition);
+} catch(e) { console.warn(e); }
+</script>
 </body>
 </html>

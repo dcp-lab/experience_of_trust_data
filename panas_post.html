@@ -121,10 +121,7 @@ function confirmExit() {
 }
 </script>
 
-<script>
-// Injected storage for PANAS_Post
-localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
-</script>
+
 
 <script>
 // SurveyStorage: Save PANAS_Post responses
@@ -137,6 +134,12 @@ try {
 } catch (e) {
     console.warn("Failed to store PANAS_Post responses:", e);
 }
+</script>
+
+<script>// Injected storage for panas_post.html
+try {
+localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
+} catch(e) { console.warn(e); }
 </script>
 </body>
 </html>

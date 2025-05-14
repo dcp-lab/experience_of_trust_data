@@ -47,5 +47,11 @@ function confirmExit() {
     }
 }
 </script>
+
+<script>// Injected storage for estimate.html
+try {
+localStorage.setItem("Estimate", JSON.stringify({ averageExpected: estimateValue }));
+} catch(e) { console.warn(e); }
+</script>
 </body>
 </html>

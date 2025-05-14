@@ -105,5 +105,11 @@ function confirmExit() {
     }
 }
 </script>
+
+<script>// Injected storage for stais.html
+try {
+localStorage.setItem("STAIS", JSON.stringify(surveyResponses));
+} catch(e) { console.warn(e); }
+</script>
 </body>
 </html>

@@ -142,5 +142,11 @@ function confirmExit() {
     }
 }
 </script>
+
+<script>// Injected storage for ssvs.html
+try {
+localStorage.setItem("SSVS", JSON.stringify(surveyResponses));
+} catch(e) { console.warn(e); }
+</script>
 </body>
 </html>

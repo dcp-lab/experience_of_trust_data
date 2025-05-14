@@ -162,5 +162,16 @@ try {
     console.warn("Failed to store dictator game results:", e);
 }
 </script>
+
+<script>// Injected storage for dictator_game.html
+try {
+
+localStorage.setItem("received", JSON.stringify(received));
+localStorage.setItem("expectedAverage", expectedAverage.toString());
+localStorage.setItem("actualAverage", actualAverage.toString());
+localStorage.setItem("difference", difference.toString());
+
+} catch(e) { console.warn(e); }
+</script>
 </body>
 </html>

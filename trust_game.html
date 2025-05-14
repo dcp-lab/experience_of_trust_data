@@ -212,30 +212,15 @@ function confirmExit() {
 }
 </script>
 
-<script>
-// Injected storage for sentBack
-localStorage.setItem("sentBack", JSON.stringify(sentBack));
-</script>
 
-<script>
-// Injected storage for totalEachTrial
-localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-</script>
 
-<script>
-// Injected storage for actualAverage
-localStorage.setItem("actualAverage", actualAverage.toString());
-</script>
 
-<script>
-// Injected storage for expectedAverage
-localStorage.setItem("expectedAverage", expectedAverage.toString());
-</script>
 
-<script>
-// Injected storage for difference
-localStorage.setItem("difference", difference.toString());
-</script>
+
+
+
+
+
 
 <script>
 // GameResults: Save received, sentBack, totalEachTrial, actual/expected average, difference
@@ -253,6 +238,18 @@ try {
 } catch (e) {
     console.warn("Failed to store game results:", e);
 }
+</script>
+
+<script>// Injected storage for trust_game.html
+try {
+
+localStorage.setItem("received", JSON.stringify(received));
+localStorage.setItem("sentBack", JSON.stringify(sentBack));
+localStorage.setItem("expectedAverage", expectedAverage.toString());
+localStorage.setItem("actualAverage", actualAverage.toString());
+localStorage.setItem("difference", difference.toString());
+
+} catch(e) { console.warn(e); }
 </script>
 </body>
 </html>
