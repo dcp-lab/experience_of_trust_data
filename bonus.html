@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Bonus</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
+    h2 { color: #003366; }
+    button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>Your Bonus</h2>
+  <p id="bonusSummary">Calculating your bonus...</p>
+  <button onclick="window.location.href='debrief.html'">Continue</button>
+
+  <script>
+    const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+
+    let totalAfterPlaying = 0;
+    if (before.length && sentBack.length === before.length) {
+      totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - (sentBack[i] || 0)), 0);
+    } else {
+      totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);  // fallback
+    }
+
+    const bonus = (totalAfterPlaying * 0.002).toFixed(2);
+    const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units.<br>
+                  This corresponds to a bonus of <strong>${bonus} £</strong> that will be paid to you.`;
+
+    document.getElementById("bonusSummary").innerHTML = text;
+  </script>
+</body>
+</html>

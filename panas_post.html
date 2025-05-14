@@ -161,5 +161,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
+<script>
+// PostSurveyRedirect
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.querySelector("form");
+  if (!form) return;
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const order = localStorage.getItem("SurveyOrder");
+    const next = order === "PANAS_first"
+      ? "stais_post.html"
+      : "bonus.html";
+    window.location.href = next;
+  });
+});
+</script>
+
 </body>
 </html>
