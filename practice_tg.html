@@ -15,34 +15,37 @@
             document.getElementById("sentValue").innerText = practiceSent;
         }
 
-        function checkAnswers(event) {
-            event.preventDefault();
-            let userTripled = parseInt(document.getElementById("tripled").value);
-            let userEndowment = parseInt(document.getElementById("endowment").value);
-            let userTotal = parseInt(document.getElementById("total").value);
-            let userSendBack = parseInt(document.getElementById("sendback").value);
+function checkAnswers(event) {
+    event.preventDefault();
+    let userTripled = parseInt(document.getElementById("tripled").value);
+    let userEndowment = parseInt(document.getElementById("endowment").value);
+    let userTotal = parseInt(document.getElementById("total").value);
+    let userSendBack = parseInt(document.getElementById("sendback").value);
 
-            let errors = [];
+    let errors = [];
 
-            if (userTripled !== tripled) errors.push("Incorrect Tripled Amount.");
-            if (userEndowment !== endowment) errors.push("Endowment should be 12.");
-            if (userTotal !== total) errors.push("Incorrect Total Available.");
-            if (userSendBack > total) errors.push("You cannot send back more than the total available.");
+    if (userTripled !== tripled) errors.push("Incorrect Tripled Amount.");
+    if (userEndowment !== endowment) errors.push("Endowment should be 12.");
+    if (userTotal !== total) errors.push("Incorrect Total Available.");
+    if (userSendBack > total) errors.push("You cannot send back more than the total available.");
 
-            let feedback = document.getElementById("feedback");
-            if (errors.length === 0) {
-            feedback.innerHTML = "<p style='color: green;'>✅ All answers correct! Proceeding...</p>";
+    let feedback = document.getElementById("feedback");
 
-            // 🧹 Clear any accidental game data
-            localStorage.removeItem("received");
-            localStorage.removeItem("sentBack");
-            localStorage.removeItem("totalEachTrial");
-            localStorage.removeItem("actualAverage");
-            localStorage.removeItem("difference");
+    if (errors.length === 0) {
+        feedback.innerHTML = "<p style='color: green;'>✅ All answers correct! Proceeding...</p>";
 
-            setTimeout(() => { window.location.href = "estimate.html"; }, 1500);
-        }
-        }
+        // 🧹 Clear any accidental game data
+        localStorage.removeItem("received");
+        localStorage.removeItem("sentBack");
+        localStorage.removeItem("totalEachTrial");
+        localStorage.removeItem("actualAverage");
+        localStorage.removeItem("difference");
+
+        setTimeout(() => { window.location.href = "estimate.html"; }, 1500);
+    } else {
+        feedback.innerHTML = "<p style='color: red;'>" + errors.join("<br>") + "</p>";
+    }
+}
 
         window.onload = displayTrialInfo;
     </script>
