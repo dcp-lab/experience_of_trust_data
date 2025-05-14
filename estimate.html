@@ -16,11 +16,6 @@
         }
         localStorage.setItem("Estimate", JSON.stringify({ averageExpected: value }));
         const task = localStorage.getItem("Condition");
-        localStorage.removeItem("received");
-        localStorage.removeItem("sentBack");
-        localStorage.removeItem("totalEachTrial");
-        localStorage.removeItem("actualAverage");
-        localStorage.removeItem("difference");
         window.location.href = task === "TG" ? "trust_game.html" : "dictator_game.html";
       }
     </script>
