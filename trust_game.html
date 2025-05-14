@@ -222,23 +222,7 @@ function confirmExit() {
 
 
 
-<script>
-// GameResults: Save received, sentBack, totalEachTrial, actual/expected average, difference
-try {
-    const received = JSON.parse(localStorage.getItem("received") || "[]");
-    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
-    const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
-    const actualAverage = totalEachTrial.length ? (totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length).toFixed(1) : null;
-    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || null;
-    const difference = (actualAverage && expectedAverage) ? (actualAverage - expectedAverage).toFixed(1) : null;
 
-    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-    localStorage.setItem("actualAverage", actualAverage);
-    localStorage.setItem("difference", difference);
-} catch (e) {
-    console.warn("Failed to store game results:", e);
-}
-</script>
 
 <script>// Injected storage for trust_game.html
 try {
@@ -251,5 +235,34 @@ localStorage.setItem("difference", difference.toString());
 
 } catch(e) { console.warn(e); }
 </script>
+
+<script>
+// GameResults: Append per trial values and store updates
+document.addEventListener("DOMContentLoaded", () => {
+    const trialIndex = parseInt(localStorage.getItem("TrustTrial") || "0");
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+
+    const amountReceived = parseInt(document.getElementById("tripledSummary").textContent) || 0;
+    const sentValue = parseInt(document.getElementById("sendBack").value || "0");
+
+    // Ensure array is extended correctly
+    received[trialIndex] = amountReceived;
+    sentBack[trialIndex] = sentValue;
+
+    localStorage.setItem("received", JSON.stringify(received));
+    localStorage.setItem("sentBack", JSON.stringify(sentBack));
+
+    const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
+    const actualAverage = totalEachTrial.length ? (totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length).toFixed(1) : null;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || null;
+    const difference = (actualAverage && expectedAverage) ? (actualAverage - expectedAverage).toFixed(1) : null;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage);
+    localStorage.setItem("difference", difference);
+});
+</script>
+
 </body>
 </html>
