@@ -50,6 +50,9 @@
 
 <button onclick="exportToCSV()">Download Data</button>
 
+
+
+
 <script>
 function exportToCSV() {
     let rows = ["Survey,Item,Value"];
@@ -64,7 +67,7 @@ function exportToCSV() {
     const gameData = {
         amounts_received: JSON.parse(localStorage.getItem("received") || "[]"),
         amounts_sent_back: JSON.parse(localStorage.getItem("sentBack") || "[]"),
-        total_each_trial: JSON.parse(localStorage.getItem("totalEachTrial") || "[]"),
+        total_amount_in_hand_before_playing: JSON.parse(localStorage.getItem("totalEachTrial") || "[]"),
         actual_average: localStorage.getItem("actualAverage"),
         expected_average: localStorage.getItem("expectedAverage"),
         difference: localStorage.getItem("difference")
@@ -76,6 +79,14 @@ function exportToCSV() {
         } else if (val !== null && val !== undefined) {
             rows.push(`GameResults,${key},${val}`);
         }
+    }
+
+    // Add "after playing" line: before - sentBack
+    const before = gameData.total_amount_in_hand_before_playing || [];
+    const sent = gameData.amounts_sent_back || [];
+    if (before.length && sent.length && before.length === sent.length) {
+        const after = before.map((val, i) => val - sent[i]);
+        rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
     }
 
     const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
