@@ -136,10 +136,14 @@ try {
 }
 </script>
 
+
+
 <script>// Injected storage for panas_post.html
 try {
-localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
-} catch(e) { console.warn(e); }
+    localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store panas_post.html data:", e);
+}
 </script>
 </body>
 </html>

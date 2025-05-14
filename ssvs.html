@@ -143,10 +143,14 @@ function confirmExit() {
 }
 </script>
 
+
+
 <script>// Injected storage for ssvs.html
 try {
-localStorage.setItem("SSVS", JSON.stringify(surveyResponses));
-} catch(e) { console.warn(e); }
+    localStorage.setItem("SSVS", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store ssvs.html data:", e);
+}
 </script>
 </body>
 </html>

@@ -151,10 +151,14 @@ try {
 }
 </script>
 
+
+
 <script>// Injected storage for stais_post.html
 try {
-localStorage.setItem("STAIS_Post", JSON.stringify(surveyResponses));
-} catch(e) { console.warn(e); }
+    localStorage.setItem("STAIS_Post", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store stais_post.html data:", e);
+}
 </script>
 </body>
 </html>

@@ -42,10 +42,14 @@
 </script>
 
 
+
+
 <script>// Injected storage for index.html
 try {
-localStorage.setItem("Condition", condition);
-} catch(e) { console.warn(e); }
+    localStorage.setItem("Condition", condition);
+} catch (e) {
+    console.warn("Failed to store index.html data:", e);
+}
 </script>
 </body>
 </html>

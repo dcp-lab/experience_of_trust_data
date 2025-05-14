@@ -125,10 +125,14 @@ function confirmExit() {
 }
 </script>
 
+
+
 <script>// Injected storage for panas.html
 try {
-localStorage.setItem("PANAS", JSON.stringify(surveyResponses));
-} catch(e) { console.warn(e); }
+    localStorage.setItem("PANAS", JSON.stringify(surveyResponses));
+} catch (e) {
+    console.warn("Failed to store panas.html data:", e);
+}
 </script>
 </body>
 </html>
