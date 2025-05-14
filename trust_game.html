@@ -236,5 +236,23 @@ localStorage.setItem("expectedAverage", expectedAverage.toString());
 // Injected storage for difference
 localStorage.setItem("difference", difference.toString());
 </script>
+
+<script>
+// GameResults: Save received, sentBack, totalEachTrial, actual/expected average, difference
+try {
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+    const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
+    const actualAverage = totalEachTrial.length ? (totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length).toFixed(1) : null;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || null;
+    const difference = (actualAverage && expectedAverage) ? (actualAverage - expectedAverage).toFixed(1) : null;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage);
+    localStorage.setItem("difference", difference);
+} catch (e) {
+    console.warn("Failed to store game results:", e);
+}
+</script>
 </body>
 </html>
