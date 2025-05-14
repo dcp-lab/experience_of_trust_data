@@ -78,9 +78,10 @@ let actualAverageDivided = 0;
 
 for (const [key, val] of Object.entries(gameData)) {
     if (key === "actual_average") {
-        const adjusted = parseFloat(val);
-        rows.push(`GameResults,actual_average,${adjusted.toFixed(2)}`);
-        actualAverageDivided = adjusted/3;
+    const adjusted = parseFloat(val);
+    const divided = adjusted / 3;
+    rows.push(`GameResults,actual_average,${divided.toFixed(2)}`);
+    actualAverageDivided = divided;
     } else if (key !== "difference") {
         if (Array.isArray(val)) {
             rows.push(`GameResults,${key},"[${val.join(", ")}]"`);
