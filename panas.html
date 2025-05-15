@@ -80,36 +80,34 @@
       }
     });
   </script>
+
+<!--
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const inputs = document.querySelectorAll("input[type='radio'], input[type='range'], select");
+document.addEventListener("DOMContentLoaded", () => {
+  const inputs = document.querySelectorAll("input[type='radio'], input[type='range'], select");
 
-    inputs.forEach(input => {
-      const name = input.name;
-      if (!name) return;
+  inputs.forEach(input => {
+    const name = input.name;
+    if (!name) return;
 
-      // Find all options with the same name
-      const group = document.querySelectorAll(`[name='${name}']`);
+    const group = document.querySelectorAll(`[name='${name}']`);
 
-      if (group.length > 1) {
-        // Radio buttons: pick one randomly
-        const random = Math.floor(Math.random() * group.length);
-        group[random].checked = true;
-      } else if (input.type === "range") {
-        // Sliders: assign random value within range
-        const min = parseInt(input.min || "0");
-        const max = parseInt(input.max || "100");
-        input.value = Math.floor(Math.random() * (max - min + 1)) + min;
-      } else if (input.tagName === "SELECT") {
-        // Dropdown: pick random option
-        const options = input.querySelectorAll("option");
-        const random = Math.floor(Math.random() * options.length);
-        input.selectedIndex = random;
-      }
-    });
+    if (group.length > 1) {
+      const random = Math.floor(Math.random() * group.length);
+      group[random].checked = true;
+    } else if (input.type === "range") {
+      const min = parseInt(input.min || "0");
+      const max = parseInt(input.max || "100");
+      input.value = Math.floor(Math.random() * (max - min + 1)) + min;
+    } else if (input.tagName === "SELECT") {
+      const options = input.querySelectorAll("option");
+      const random = Math.floor(Math.random() * options.length);
+      input.selectedIndex = random;
+    }
   });
+});
 </script>
-
+-->
 
 <script>
 function confirmExit() {
