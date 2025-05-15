@@ -34,30 +34,16 @@
     }
   </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <button onclick="exportToCSV()">Download Data</button>
-
-
-
 
 <script>
 function exportToCSV() {
     let rows = ["Survey,Item,Value"];
     const condition = localStorage.getItem("Condition");
     if (condition) rows.push(`Condition,GameType,${condition}`);
+
+    const prolificID = localStorage.getItem("ProlificID");
+    if (prolificID) rows.push(`Participant,ProlificID,${prolificID}`);
 
     const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
     if (estimate.averageExpected !== undefined) {
