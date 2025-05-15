@@ -16,7 +16,7 @@
         }
         localStorage.setItem("Estimate", JSON.stringify({ averageExpected: value }));
         const task = localStorage.getItem("Condition");
-        window.location.href = task === "TG" ? "trust_game.html" : "dictator_game.html";
+        window.location.href = task === "TG" ? "tg_game.html" : "dg_game.html";
       }
     </script>
 </head>
