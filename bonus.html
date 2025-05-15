@@ -17,14 +17,19 @@
 
   <script>
     const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
-    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+const condition = localStorage.getItem("Condition");
 
-    let totalAfterPlaying = 0;
-    if (before.length > 0 && sentBack.length > 0 && sentBack.length === before.length) {
-      totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - sentBack[i]), 0);
-    } else {
-      totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);  // fallback
-    }
+let totalAfterPlaying = 0;
+
+if (before.length > 0) {
+  if (condition === "TG" && sentBack.length === before.length) {
+    totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - sentBack[i]), 0);
+  } else {
+    totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);
+  }
+}
+
 
 
     const bonus = (totalAfterPlaying * 0.002).toFixed(2);
