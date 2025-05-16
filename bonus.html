@@ -17,8 +17,13 @@
 
   <script>
     const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
-const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
-const condition = localStorage.getItem("Condition");
+  const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+  const condition = localStorage.getItem("Condition");
+
+  console.log("Condition:", condition); // should show "TG"
+  console.log("Total Each Trial (before):", before); // array of 10 numbers
+  console.log("Sent Back:", sentBack); // SHOULD be 10 numbers in TG
+  console.log("Length Match:", before.length === sentBack.length);
 
 let totalAfterPlaying = 0;
 
