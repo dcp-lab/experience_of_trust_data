@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Download Results</title>
-<style>
+  <meta charset="utf-8"/>
+  <title>Download Results</title>
+  <style>
     body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
     button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-<h2>Download Your Results</h2>
-<p>Click the button below to download your responses as a JSON file.</p>
+  <h2>Download Your Results</h2>
+  <p>Click the button below to download your responses as a JSON file.</p>
 
-<script>
+  <script>
     function downloadResults() {
       const data = {};
       for (let i = 0; i < localStorage.length; i++) {
@@ -34,97 +33,82 @@
     }
   </script>
 
-<button onclick="exportToCSV()">Download Data</button>
+  <button onclick="exportToCSV()">Download Data</button>
 
-<script>
-function exportToCSV() {
-    let rows = ["Survey,Item,Value"];
-    const condition = localStorage.getItem("Condition");
-    if (condition) rows.push(`Condition,GameType,${condition}`);
+  <script>
+    function exportToCSV() {
+      let rows = ["Survey,Item,Value"];
 
-    const prolificID = localStorage.getItem("ProlificID");
-    if (prolificID) rows.push(`Participant,ProlificID,${prolificID}`);
+      const condition = localStorage.getItem("Condition");
+      if (condition) rows.push(`Condition,GameType,${condition}`);
 
-    const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
-    if (estimate.averageExpected !== undefined) {
+      const prolificID = localStorage.getItem("ProlificID");
+      if (prolificID) rows.push(`Participant,ProlificID,${prolificID}`);
+
+      const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
+      if (estimate.averageExpected !== undefined) {
         rows.push(`Estimate,ExpectedAverage,${estimate.averageExpected}`);
-    }
+      }
 
-    const gameData = {
-        amounts_received: JSON.parse(localStorage.getItem("received") || "[]"),
-        amounts_sent_back: JSON.parse(localStorage.getItem("sentBack") || "[]"),
-        total_amount_in_hand_before_playing: JSON.parse(localStorage.getItem("totalEachTrial") || "[]"),
-        actual_average: localStorage.getItem("actualAverage"),
-        expected_average: localStorage.getItem("expectedAverage"),
-        difference: localStorage.getItem("difference")
-    };
+      // --- Game Data ---
+      const received = JSON.parse(localStorage.getItem("received") || "[]");
+      const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+      const before = received.map(val => val + 12);
 
-    
-let actualAverageDivided = 0;
+      rows.push(`GameResults,amounts_received,"[${received.join(", ")}]"`);
+      rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
+      rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
 
-for (const [key, val] of Object.entries(gameData)) {
-    if (key === "actual_average") {
-    const adjusted = parseFloat(val);
-    const divided = adjusted / 3;
-    rows.push(`GameResults,actual_average,${divided.toFixed(2)}`);
-    actualAverageDivided = divided;
-    } else if (key !== "difference") {
-        if (Array.isArray(val)) {
-            rows.push(`GameResults,${key},"[${val.join(", ")}]"`);
-        } else if (val !== null && val !== undefined) {
-            rows.push(`GameResults,${key},${val}`);
-        }
-    }
-}
+      const actualAverage = parseFloat(localStorage.getItem("actualAverage") || "0");
+      const actualAverageDivided = actualAverage / 3;
+      rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
 
+      const expectedAverage = parseFloat(localStorage.getItem("expectedAverage") || "0");
+      rows.push(`GameResults,expected_average,${expectedAverage.toFixed(2)}`);
 
-// Compute and push corrected difference
-const expectedAverage = parseFloat(estimate.averageExpected || "0");
-const correctedDifference = actualAverageDivided - expectedAverage;
-rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
+      const correctedDifference = actualAverageDivided - expectedAverage;
+      rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
 
-    // Add "after playing" line: before - sentBack
-    const before = gameData.total_amount_in_hand_before_playing || [];
-    const sent = gameData.amounts_sent_back || [];
-    if (before.length && sent.length && before.length === sent.length) {
-        const after = before.map((val, i) => val - sent[i]);
+      if (before.length && sentBack.length && before.length === sentBack.length) {
+        const after = before.map((val, i) => val - sentBack[i]);
         rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
         const totalAfterPlaying = after.reduce((sum, val) => sum + val, 0);
         const bonus = (totalAfterPlaying * 0.002).toFixed(2);
         rows.push(`GameResults,bonus,${bonus}`);
-    }
+      }
 
-    const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
-    surveys.forEach(survey => {
+      // --- Surveys ---
+      const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
+      surveys.forEach(survey => {
         const data = JSON.parse(localStorage.getItem(survey) || "null");
         if (!data) return;
         if (Array.isArray(data)) {
-            data.forEach((item, index) => {
-                if (typeof item === 'object') {
-                    Object.entries(item).forEach(([key, value]) => {
-                        rows.push(`${survey},${key},${value}`);
-                    });
-                } else {
-                    rows.push(`${survey},Item${index + 1},${item}`);
-                }
-            });
-        } else if (typeof data === 'object') {
-            Object.entries(data).forEach(([key, value]) => {
+          data.forEach((item, index) => {
+            if (typeof item === 'object') {
+              Object.entries(item).forEach(([key, value]) => {
                 rows.push(`${survey},${key},${value}`);
-            });
+              });
+            } else {
+              rows.push(`${survey},Item${index + 1},${item}`);
+            }
+          });
+        } else if (typeof data === 'object') {
+          Object.entries(data).forEach(([key, value]) => {
+            rows.push(`${survey},${key},${value}`);
+          });
         }
-    });
+      });
 
-    const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "survey_results.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-</script>
-
+      // --- Download CSV ---
+      const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "survey_results.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
 </html>
