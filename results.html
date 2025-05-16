@@ -89,6 +89,9 @@ rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
     if (before.length && sent.length && before.length === sent.length) {
         const after = before.map((val, i) => val - sent[i]);
         rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
+        const totalAfterPlaying = after.reduce((sum, val) => sum + val, 0);
+        const bonus = (totalAfterPlaying * 0.002).toFixed(2);
+        rows.push(`GameResults,bonus,${bonus}`);
     }
 
     const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
