@@ -22,15 +22,11 @@ const condition = localStorage.getItem("Condition");
 
 let totalAfterPlaying = 0;
 
-if (before.length > 0) {
-  if (condition === "TG" && sentBack.length === before.length) {
-    totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - sentBack[i]), 0);
-  } else {
-    totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);
-  }
+if (condition === "TG") {
+  totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - (sentBack[i] || 0)), 0);
+} else {
+  totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);
 }
-
-
 
     const bonus = (totalAfterPlaying * 0.002).toFixed(2);
     const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units. As a reminder a monetary unit is worth £0.002.<br>
