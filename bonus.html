@@ -15,29 +15,38 @@
   <p id="bonusSummary">Calculating your bonus...</p>
   <button onclick="window.location.href='debrief.html'">Continue</button>
 
-  <script>
-    const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
+ <script>
+  const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
   const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
   const condition = localStorage.getItem("Condition");
 
-  console.log("Condition:", condition); // should show "TG"
-  console.log("Total Each Trial (before):", before); // array of 10 numbers
-  console.log("Sent Back:", sentBack); // SHOULD be 10 numbers in TG
+  console.log("Condition:", condition);
+  console.log("Total Each Trial (before):", before);
+  console.log("Sent Back:", sentBack);
   console.log("Length Match:", before.length === sentBack.length);
 
-let totalAfterPlaying = 0;
+  let totalAfterPlaying = 0;
 
-if (condition === "TG") {
-  totalAfterPlaying = before.reduce((sum, val, i) => sum + (val - (sentBack[i] || 0)), 0);
-} else {
-  totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);
-}
+  if (condition === "TG") {
+    totalAfterPlaying = before.reduce((sum, val, i) => {
+      const returned = sentBack[i] || 0;
+      const kept = val - returned;
+      console.log(`Trial ${i + 1}: before=${val}, returned=${returned}, kept=${kept}`);
+      return sum + kept;
+    }, 0);
+  } else {
+    totalAfterPlaying = before.reduce((sum, val) => sum + val, 0);
+  }
 
-    const bonus = (totalAfterPlaying * 0.002).toFixed(2);
-    const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units. As a reminder a monetary unit is worth £0.002.<br>
-                  This corresponds to a bonus of <strong>${bonus} £</strong> that will be paid to you.`;
+  const bonus = (totalAfterPlaying * 0.002).toFixed(2);
+  const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units. As a reminder a monetary unit is worth £0.002.<br>
+                This corresponds to a bonus of <strong>${bonus} £</strong> that will be paid to you.`;
 
-    document.getElementById("bonusSummary").innerHTML = text;
-  </script>
+  console.log("Final Total After Playing:", totalAfterPlaying);
+  console.log("Bonus (£):", bonus);
+
+  document.getElementById("bonusSummary").innerHTML = text;
+</script>
+
 </body>
 </html>
