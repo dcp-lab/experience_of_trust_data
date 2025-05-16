@@ -17,11 +17,16 @@
 
 <script>
 window.onload = function () {
-  const afterPlaying = JSON.parse(localStorage.getItem("total_amount_in_hand_after_playing") || "[]");
+  const before = JSON.parse(localStorage.getItem("totalEachTrial") || "[]");
+  const sent = JSON.parse(localStorage.getItem("sentBack") || "[]");
 
-  console.log("Total after playing each trial:", afterPlaying);
+  console.log("Before:", before);
+  console.log("Sent Back:", sent);
 
-  const totalAfterPlaying = afterPlaying.reduce((sum, val) => sum + val, 0);
+  const after = before.map((val, i) => val - (sent[i] || 0));
+  console.log("After playing per trial:", after);
+
+  const totalAfterPlaying = after.reduce((sum, val) => sum + val, 0);
   const bonus = (totalAfterPlaying * 0.002).toFixed(2);
 
   const text = `After 10 trials, you accumulated <strong>${totalAfterPlaying}</strong> monetary units. As a reminder a monetary unit is worth £0.002.<br>
