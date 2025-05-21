@@ -15,16 +15,15 @@
 <p>Before beginning the experiment, <b>please read carefully the information provided in the next page</b>.</p>
 <p><b>By clicking on "Continue", you will confirm you have read the previous information and be able to proceed with the experiment</b>.</p>
 <p>If you wish to exit the experiment, <b>you can click on the Exit button at any time</b> during the whole experiment and your data will be completely deleted.</p>
-<div style="display: flex; flex-direction: row; gap: 20px;">
+<div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 30px;">
   <button style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
     Continue
   </button>
-  <button onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px; margin-left: auto;">
+  <button onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
     Exit Experiment
   </button>
 </div>
-
-
+    
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
