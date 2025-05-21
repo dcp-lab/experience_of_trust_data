@@ -90,5 +90,20 @@ function generateTrials() {
 generateTrials();
 </script>
 
+
+<script>
+  // Set player icon if not already set
+  if (!sessionStorage.getItem("currentPlayerIcon")) {
+    const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+    const icon = icons[Math.floor(Math.random() * icons.length)];
+    sessionStorage.setItem("currentPlayerIcon", icon);
+  }
+
+  // Redirect after ensuring icon is stored
+  setTimeout(() => {
+    window.location.href = "pre_consents.html";
+  }, 300);
+</script>
+
 </body>
 </html>
