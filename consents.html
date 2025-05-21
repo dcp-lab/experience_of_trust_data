@@ -44,14 +44,8 @@
       I confirm that I have read and understood the consent form above and voluntarily agree to participate.
     </label>
 <br/><br/>
-<div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 10px;">
-  <button style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
-    Continue
-  </button>
-  <button onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
-    Exit Experiment
-  </button>
-</div></form>
+<button type="submit">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+</form>
 <script>
     document.getElementById("consentForm").addEventListener("submit", function(e) {
       e.preventDefault();

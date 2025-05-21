@@ -48,14 +48,8 @@
 <h3>What should I do now?</h3>
 <p>Please contact us if there is anything that is not clear or you would like more information. You can email: dcp-lab@ucl.ac.uk and we would be very happy to help. If you wish to participate, please continue to the consent form.</p>
 <p>We very much appreciate your time in considering whether to participate in this study.</p>
-<div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 10px;">
-  <button style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
-    Continue
-  </button>
-  <button onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 4px;">
-    Exit Experiment
-  </button>
-</div>
+<button onclick="window.location.href='pre_consents.html'">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
+
 
 <script>
 function confirmExit() {
