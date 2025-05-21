@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
 <script>
+  // Immediately set the icon
   if (!sessionStorage.getItem("currentPlayerIcon")) {
     const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
     const icon = icons[Math.floor(Math.random() * icons.length)];
     sessionStorage.setItem("currentPlayerIcon", icon);
   }
+
+  // Optional: delay redirect to make sure icon is stored before navigation
+  setTimeout(() => {
+    window.location.href = "pre_consents.html"; // or whatever your next page is
+  }, 200); // 200ms delay to ensure icon is stored
 </script>
 
-<script>
-  if (!sessionStorage.getItem("currentPlayerIcon")) {
-    const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-    const icon = icons[Math.floor(Math.random() * icons.length)];
-    sessionStorage.setItem("currentPlayerIcon", icon);
-  }
-</script>
 
   <meta charset="UTF-8">
   <title>Information Sheet</title>
