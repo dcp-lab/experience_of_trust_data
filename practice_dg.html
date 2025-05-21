@@ -49,6 +49,70 @@
     </script>
 </head>
 <body>
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+}
+.practice-button {
+    width: 220px;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.submit-button {
+    background-color: #28a745;
+}
+.instruction-button {
+    background-color: #007bff;
+}
+.exit-button {
+    background-color: #dc3545;
+}
+.submit-button:hover {
+    background-color: #1e7e34;
+}
+.instruction-button:hover {
+    background-color: #0056b3;
+}
+.exit-button:hover {
+    background-color: #c82333;
+}
+</style>
+
+
+<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
+<button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
+<div id="instructionContent">Loading...</div>
+</div>
+<script>
+function showInstructions() {
+    const condition = localStorage.getItem("Condition") || "DG";
+    const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("instructionContent").innerHTML = data;
+            document.getElementById("instructionModal").style.display = "block";
+        })
+        .catch(() => {
+            document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
+            document.getElementById("instructionModal").style.display = "block";
+        });
+}
+</script>
 <div class="content" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
 <h2>Practice Trial: Player B Role</h2>
 <p><b>You have been assigned to a Player B role</b>.</p>
@@ -61,12 +125,14 @@
 <input id="endowment" required="" type="number"/><br/>
 <label>Total Available:</label><br/>
 <input id="total" required="" type="number"/><br/><br/>
-<button type="submit">Submit</button><button id="exitButton" onclick="confirmExit()">Exit Experiment</button>
+<div class="button-group">
+<button class="practice-button submit-button" type="submit">Submit</button>
+<button class="practice-button instruction-button" onclick="showInstructions()" type="button">Instructions</button>
+<button class="practice-button exit-button" onclick="confirmExit()" type="button">Exit Experiment</button>
+</div>
 </form>
 <div id="feedback"></div>
 </div>
-
-
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
