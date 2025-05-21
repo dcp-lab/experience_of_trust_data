@@ -52,16 +52,21 @@
     }
   </script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const icon = sessionStorage.getItem("currentPlayerIcon") || "👤";
-      setTimeout(() => {
-        document.querySelectorAll(".playerIcon").forEach(span => {
-          span.textContent = `Player ${icon}`;
-        });
-      }, 100);
-    });
-  </script>
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Ensure icon exists
+    if (!sessionStorage.getItem("currentPlayerIcon")) {
+      const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+      const icon = icons[Math.floor(Math.random() * icons.length)];
+      sessionStorage.setItem("currentPlayerIcon", icon);
+    }
 
+    // Inject into HTML
+    const icon = sessionStorage.getItem("currentPlayerIcon") || "👤";
+    document.querySelectorAll(".playerIcon").forEach(span => {
+      span.textContent = `Player ${icon}`;
+    });
+  });
+</script>
 </body>
 </html>
