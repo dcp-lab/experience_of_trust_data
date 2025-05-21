@@ -28,7 +28,7 @@
 <body>
 <div>
 <h2>Please wait...</h2>
-<p>Waiting for the decision of the next Player A...</p>
+<p>Waiting for the decision of the next Player &lt;span class='playerIcon'&gt;&lt;/span&gt;...</p>
 </div>
 <script>
     setTimeout(() => {
@@ -36,8 +36,6 @@
       window.location.href = next;
     }, 3000);
   </script>
-
-
 <button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px;">Exit Experiment</button>
 <script>
 function confirmExit() {
@@ -51,6 +49,14 @@ function confirmExit() {
         window.location.href = "index.html";
     }
 }
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const icon = sessionStorage.getItem("currentPlayerIcon") || "👤";
+    const spans = document.querySelectorAll(".playerIcon");
+    spans.forEach(span => span.textContent = icon);
+  });
 </script>
 </body>
 </html>
