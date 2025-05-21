@@ -37,5 +37,11 @@
     window.location.href = nextPage;
   }, 3000);
 </script>
+
+<script>
+  const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+  const icon = icons[Math.floor(Math.random() * icons.length)];
+  sessionStorage.setItem("currentPlayerIcon", icon);
+</script>
 </body>
 </html>
