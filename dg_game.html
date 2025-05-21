@@ -279,13 +279,15 @@ function showInstructions() {
 </script>
 
 <script>
-      const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-      const icon = icons[Math.floor(Math.random() * icons.length)];
-      sessionStorage.setItem("currentPlayerIcon", icon);
-      document.addEventListener("DOMContentLoaded", function() {
-        const spans = document.querySelectorAll(".playerIcon");
-        spans.forEach(span => span.textContent = icon);
-      });
-    </script>
+  const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+  const icon = icons[Math.floor(Math.random() * icons.length)];
+  sessionStorage.setItem("currentPlayerIcon", icon);
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => {
+      const spans = document.querySelectorAll(".playerIcon");
+      spans.forEach(span => span.textContent = icon);
+    }, 100);
+  });
+</script>
 </body>
 </html>
