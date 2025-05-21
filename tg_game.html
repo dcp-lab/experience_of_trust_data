@@ -76,6 +76,23 @@
   </style>
 </head>
 <body>
+<style>
+.instruction-button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.instruction-button:hover {
+    background-color: #0056b3;
+}
+</style>
+
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 100vh; font-weight: bold; font-size: 20px; text-align: center;">
   Please wait while the Player A is making its decision...
@@ -100,7 +117,9 @@
 <label for="sendBack">How many coins do you want to send back to Player A?</label><br/>
 <input id="sendBack" min="0" type="number"/>
 </div>
-<button onclick="submitDecision()">Continue</button><button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px; background-color: #e74c3c; color: white;">Exit Experiment</button>
+<button onclick="submitDecision()">Continue</button>
+<button class="instruction-button" onclick="showInstructions()">Instructions</button>
+<button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px; background-color: #e74c3c; color: white;">Exit Experiment</button>
 </div>
 <script>
   // Initialize trial index
@@ -196,8 +215,6 @@
 
   document.addEventListener("DOMContentLoaded", showGameAfterDelay);
 </script>
-
-
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
@@ -211,19 +228,6 @@ function confirmExit() {
     }
 }
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>// Injected storage for tg_game.html
 try {
 
@@ -235,13 +239,11 @@ localStorage.setItem("difference", difference.toString());
 
 } catch(e) { console.warn(e); }
 </script>
-
 <form id="gameDataForm" style="display: none;">
-  <input type="hidden" name="received" id="inputReceived" />
-  <input type="hidden" name="sentBack" id="inputSentBack" />
-  <input type="hidden" name="total" id="inputTotal" />
+<input id="inputReceived" name="received" type="hidden"/>
+<input id="inputSentBack" name="sentBack" type="hidden"/>
+<input id="inputTotal" name="total" type="hidden"/>
 </form>
-
 <script>
 // GameResults: Reliable form-driven storage
 function updateGameContent() {
@@ -303,5 +305,26 @@ function submitDecision() {
 }
 </script>
 
+<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
+<button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
+<div id="instructionContent">Loading...</div>
+</div>
+<script>
+function showInstructions() {
+    const condition = localStorage.getItem("Condition") || "DG";
+    const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("instructionContent").innerHTML = data;
+            document.getElementById("instructionModal").style.display = "block";
+        })
+        .catch(() => {
+            document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
+            document.getElementById("instructionModal").style.display = "block";
+        });
+}
+</script>
 </body>
 </html>

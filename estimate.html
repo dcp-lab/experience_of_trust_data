@@ -21,6 +21,40 @@
     </script>
 </head>
 <body>
+<style>
+.button-common {
+    display: inline-block;
+    margin-top: 30px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.continue-button {
+    background-color: #28a745;
+}
+.continue-button:hover {
+    background-color: #1e7e34;
+}
+
+.instruction-button {
+    background-color: #007bff;
+}
+.instruction-button:hover {
+    background-color: #0056b3;
+}
+
+.exit-button {
+    background-color: #dc3545;
+}
+.exit-button:hover {
+    background-color: #c82333;
+}
+</style>
 <div class="content" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
 <h2>Expectation</h2>
 <p><b>You have been assigned to a <u>Player B</u> role.</b></p>
@@ -29,11 +63,9 @@
 <form onsubmit="submitEstimate(event)" style="display: flex; flex-direction: column; gap: 10px;">
 <label>Your Estimate:</label>
 <input id="estimateInput" max="12" min="0" placeholder="Enter your estimate between 0 and 12" required="" step="1" type="number"/>
-<button type="submit">Submit</button><button id="exitButton" onclick="confirmExit()">Exit Experiment</button>
+<button class="button-common continue-button" type="submit">Submit</button><button class="button-common instruction-button" onclick="showInstructions()">Instructions</button><button class="button-common exit-button" id="exitButton" onclick="confirmExit()" style="">Exit Experiment</button>
 </form>
 </div>
-
-
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
@@ -47,14 +79,32 @@ function confirmExit() {
     }
 }
 </script>
-
-
-
 <script>// Injected storage for estimate.html
 try {
     localStorage.setItem("Estimate", JSON.stringify({ averageExpected: estimateValue }));
 } catch (e) {
     console.warn("Failed to store estimate.html data:", e);
+}
+</script>
+<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
+<button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
+<div id="instructionContent">Loading...</div>
+</div>
+<script>
+function showInstructions() {
+    const condition = localStorage.getItem("Condition") || "DG";
+    const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("instructionContent").innerHTML = data;
+            document.getElementById("instructionModal").style.display = "block";
+        })
+        .catch(() => {
+            document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
+            document.getElementById("instructionModal").style.display = "block";
+        });
 }
 </script>
 </body>
