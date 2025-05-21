@@ -54,8 +54,10 @@ function confirmExit() {
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const icon = sessionStorage.getItem("currentPlayerIcon") || "👤";
-    const spans = document.querySelectorAll(".playerIcon");
-    spans.forEach(span => span.textContent = icon);
+    setTimeout(() => {
+      const spans = document.querySelectorAll(".playerIcon");
+      spans.forEach(span => span.textContent = icon);
+    }, 100);
   });
 </script>
 </body>
