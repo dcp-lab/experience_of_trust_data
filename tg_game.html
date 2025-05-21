@@ -77,6 +77,46 @@
 </head>
 <body>
 <style>
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+}
+.button-common {
+    width: 220px;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin: 0;
+}
+.continue-button {
+    background-color: #28a745;
+}
+.instruction-button {
+    background-color: #007bff;
+}
+.exit-button {
+    background-color: #dc3545;
+}
+.continue-button:hover {
+    background-color: #1e7e34;
+}
+.instruction-button:hover {
+    background-color: #0056b3;
+}
+.exit-button:hover {
+    background-color: #c82333;
+}
+</style>
+
+
+<style>
 .instruction-button {
     display: block;
     margin-top: 20px;
@@ -92,7 +132,6 @@
     background-color: #0056b3;
 }
 </style>
-
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 100vh; font-weight: bold; font-size: 20px; text-align: center;">
   Please wait while the Player A is making its decision...
@@ -117,9 +156,11 @@
 <label for="sendBack">How many coins do you want to send back to Player A?</label><br/>
 <input id="sendBack" min="0" type="number"/>
 </div>
-<button onclick="submitDecision()">Continue</button>
-<button class="instruction-button" onclick="showInstructions()">Instructions</button>
-<button id="exitButton" onclick="confirmExit()" style="margin-top: 20px; margin-left: 20px; background-color: #e74c3c; color: white;">Exit Experiment</button>
+<div class="button-container">
+<button class="button-common continue-button" onclick="submitDecision()">Continue</button>
+<button class="button-common instruction-button" onclick="showInstructions()">Instructions</button>
+<button class="button-common exit-button" onclick="confirmExit()">Exit Experiment</button>
+</div>
 </div>
 <script>
   // Initialize trial index
@@ -304,7 +345,6 @@ function submitDecision() {
   }
 }
 </script>
-
 <div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
 <button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
 <div id="instructionContent">Loading...</div>
