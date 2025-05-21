@@ -9,6 +9,14 @@
   }
 </script>
 
+<script>
+  if (!sessionStorage.getItem("currentPlayerIcon")) {
+    const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+    const icon = icons[Math.floor(Math.random() * icons.length)];
+    sessionStorage.setItem("currentPlayerIcon", icon);
+  }
+</script>
+
   <meta charset="UTF-8">
   <title>Information Sheet</title>
   <style>

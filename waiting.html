@@ -62,5 +62,16 @@
       }, 100);
     });
   </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const icon = sessionStorage.getItem("currentPlayerIcon") || "👤";
+    setTimeout(() => {
+      document.querySelectorAll(".playerIcon").forEach(span => {
+        span.textContent = `Player ${icon}`;
+      });
+    }, 100);
+  });
+</script>
 </body>
 </html>

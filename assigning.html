@@ -3,6 +3,14 @@
 
 <html lang="en">
 <head>
+<script>
+  if (!sessionStorage.getItem("currentPlayerIcon")) {
+    const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+    const icon = icons[Math.floor(Math.random() * icons.length)];
+    sessionStorage.setItem("currentPlayerIcon", icon);
+  }
+</script>
+
 <meta charset="utf-8"/>
 <title>Waiting...</title>
 <style>
