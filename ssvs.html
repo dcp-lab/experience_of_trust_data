@@ -56,9 +56,13 @@
       localStorage.setItem("SSVS", JSON.stringify(data));
       const order = localStorage.getItem("SurveyOrder");
       if (order === "PANAS_first") {
-        window.location.href = "panas.html";
+        window.window.responseTimes = window.responseTimes || {};
+    window.responseTimes.ssvsEnd = Date.now();
+    location.href = "panas.html";
       } else {
-        window.location.href = "stais.html";
+        window.window.responseTimes = window.responseTimes || {};
+    window.responseTimes.ssvsEnd = Date.now();
+    location.href = "stais.html";
       }
     });
   </script>
