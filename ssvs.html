@@ -64,38 +64,7 @@
       }
     });
   </script>
-<script>
-  document.getElementById("ssvsForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const form = new FormData(this);
-    const data = {};
-    let complete = true;
 
-    // Reset any previous highlights
-    document.querySelectorAll('.question').forEach(q => q.style.backgroundColor = "");
-
-    const questions = ['Equality', 'Inner Harmony', 'Social Power', 'Pleasure', 'Freedom', 'A Spiritual Life', 'Meaning in Life', 'National Security', 'Self-Respect', 'True Friendship'];
-    for (let item of questions) {
-      const val = form.get(item);
-      if (!val) {
-        complete = false;
-        // Highlight the corresponding question
-        const questionElem = [...document.querySelectorAll('.question')].find(q => q.textContent.includes(item));
-        if (questionElem) questionElem.style.backgroundColor = "#ffe6e6";
-      }
-      data[item] = val;
-    }
-
-    if (!complete) {
-      alert("Please answer all items. Highlighted in red.");
-      return;
-    }
-
-    localStorage.setItem("SSVS", JSON.stringify(data));
-    const order = JSON.parse(localStorage.getItem("SurveyOrder"));
-    window.location.href = order === "PANAS_first" ? "panas.html" : "stais.html";
-  });
-</script>
 <div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 30px;">
 <button onclick="document.getElementById('ssvsForm').dispatchEvent(new Event('submit', { cancelable: true }))" style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
     Continue
