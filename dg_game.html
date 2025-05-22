@@ -75,16 +75,16 @@
 </style>
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 200px; font-weight: bold; font-size: 20px; text-align: center;">
-  Waiting for the decision of next Player A...
+  Waiting for the decision of next <span id="playerLabel"></span>...
 </div>
 <div id="gameContent" style="display: none;">
 <div class="role-box">
 <p>You are <strong>Player B</strong> in this game.</p>
-<p>New Player A has received 12 coins and has decided how many coins to give you.</p>
+<p>New <span id="playerLabel"></span> has received 12 coins and has decided how many coins to give you.</p>
 <p>That amount has been tripled before reaching you.</p>
 </div>
 <div class="coin-row">
-<span class="summary-text">Amount sent by Player A:</span>
+<span class="summary-text">Amount sent by <span id="playerLabel"></span>:</span>
 <div class="coin-row" id="amountSentRow"></div>
 </div>
 <div class="coin-row">
@@ -278,6 +278,24 @@ function showInstructions() {
             document.getElementById("instructionModal").style.display = "block";
         });
 }
+</script>
+
+<script>
+    // Simulated trial index (replace or integrate with your actual trial tracking logic)
+    let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
+
+    function getOrdinal(n) {
+        let s=["th","st","nd","rd"], v=n%100;
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
+
+    const playerLabel = getOrdinal(currentTrial) + " player";
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
+    });
+
+    // Increment for next load
+    sessionStorage.setItem("currentTrial", currentTrial + 1);
 </script>
 </body>
 </html>

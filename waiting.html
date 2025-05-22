@@ -28,7 +28,7 @@
 <body>
 <div>
 <h2>Please wait...</h2>
-<p>Waiting for the decision of the next Player A...</p>
+<p>Waiting for the decision of the next <span id="playerLabel"></span>...</p>
 </div>
 <script>
     setTimeout(() => {
@@ -51,6 +51,24 @@ function confirmExit() {
         window.location.href = "index.html";
     }
 }
+</script>
+
+<script>
+    // Simulated trial index (replace or integrate with your actual trial tracking logic)
+    let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
+
+    function getOrdinal(n) {
+        let s=["th","st","nd","rd"], v=n%100;
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
+
+    const playerLabel = getOrdinal(currentTrial) + " player";
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
+    });
+
+    // Increment for next load
+    sessionStorage.setItem("currentTrial", currentTrial + 1);
 </script>
 </body>
 </html>
