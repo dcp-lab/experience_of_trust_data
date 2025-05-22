@@ -289,7 +289,7 @@ function showInstructions() {
 
     const playerLabel = getOrdinal(currentTrial) + " player";
     document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = " " + playerLabel);
+        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
     });
 
     // Increment for next load
