@@ -58,6 +58,17 @@
     rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
     rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
 
+    // --- Timing Data ---
+    if (typeof window.responseTimes !== "undefined") {
+      const rt = window.responseTimes;
+      rows.push(`Timing,experimentDurationMs,${rt.endTime - rt.startTime}`);
+      rows.push(`Timing,ssvsDurationMs,${rt.ssvsEnd - rt.ssvsStart}`);
+      rows.push(`Timing,panasDurationMs,${rt.panasEnd - rt.panasStart}`);
+      rows.push(`Timing,staisDurationMs,${rt.staisEnd - rt.staisStart}`);
+      rows.push(`Timing,panasPostDurationMs,${rt.panasPostEnd - rt.panasPostStart}`);
+      rows.push(`Timing,staisPostDurationMs,${rt.staisPostEnd - rt.staisPostStart}`);
+      rows.push(`Timing,trialDurationsMs,"${JSON.stringify(rt.trials)}"`);
+    }
     if (before.length && sentBack.length && before.length === sentBack.length) {
       const after = before.map((val, i) => val - sentBack[i]);
       rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
