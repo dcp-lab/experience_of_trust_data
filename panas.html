@@ -12,11 +12,7 @@
     button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
-<body><script>
-if (window.responseTimes) {
-  window.responseTimes.panasStart = Date.now();
-}
-</script>
+<body>
 <h2>Survey (Pre)</h2>
 <div class="scale-title">
 <b>Instructions:</b><br/><br/>
@@ -46,10 +42,13 @@ if (window.responseTimes) {
 <div class="question"><label>19. I feel <b>active</b></label><br/><label class="option"><input name="Active" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Active" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Active" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Active" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Active" required="" type="radio" value="5"/> Extremely</label> </div>
 <div class="question"><label>20. I feel <b>fraid</b></label><br/><label class="option"><input name="Afraid" required="" type="radio" value="1"/> Very slightly or not at all</label> <label class="option"><input name="Afraid" required="" type="radio" value="2"/> A little</label> <label class="option"><input name="Afraid" required="" type="radio" value="3"/> Moderately</label> <label class="option"><input name="Afraid" required="" type="radio" value="4"/> Quite a bit</label> <label class="option"><input name="Afraid" required="" type="radio" value="5"/> Extremely</label> </div>
 <div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 30px;">
-<button onclick="document.getElementById('panasForm').dispatchEvent(new Event('submit', { cancelable: true }));" style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
+  <button onclick="document.getElementById('panasForm').dispatchEvent(new Event('submit', { cancelable: true }));"
+          style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
     Continue
   </button>
-<button id="exitButton" onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
+  <button id="exitButton"
+          onclick="confirmExit()"
+          style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
     Exit Experiment
   </button>
 </div>
@@ -82,14 +81,14 @@ if (window.responseTimes) {
         }
       } else {
         if (order === "PANAS_first") {
-          window.if (window.responseTimes) window.responseTimes.panasEnd = Date.now();
-    location.href = "stais.html";
+          window.location.href = "stais.html";
         } else {
           window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
         }
       }
     });
   </script>
+
 <!--
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -117,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 -->
+
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
@@ -130,6 +130,9 @@ function confirmExit() {
     }
 }
 </script>
+
+
+
 <script>// Injected storage for panas.html
 try {
     localStorage.setItem("PANAS", JSON.stringify(surveyResponses));

@@ -384,17 +384,5 @@ function showInstructions() {
     // Increment for next load
     sessionStorage.setItem("currentTrial", currentTrial + 1);
 </script>
-
-<script>
-let trialStartTime = Date.now();
-function recordTrialResponseTime() {
-    const now = Date.now();
-    if (!window.responseTimes) window.responseTimes = {};
-    if (!Array.isArray(window.responseTimes.trials)) window.responseTimes.trials = [];
-    window.responseTimes.trials.push(now - trialStartTime);
-    trialStartTime = Date.now();
-}
-</script>
-
 </body>
 </html>
