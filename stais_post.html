@@ -34,13 +34,10 @@
 <div class="question"><label>9. I feel <b>content</b></label><br/><label class="option"><input name="q8" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q8" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q8" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q8" required="" type="radio" value="4"/> Very much so</label> </div>
 <div class="question"><label>10. I am <b>nervous</b></label><br/><label class="option"><input name="q9" required="" type="radio" value="1"/> Not at all</label> <label class="option"><input name="q9" required="" type="radio" value="2"/> Somewhat</label> <label class="option"><input name="q9" required="" type="radio" value="3"/> Moderately so</label> <label class="option"><input name="q9" required="" type="radio" value="4"/> Very much so</label> </div>
 <div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 30px;">
-  <button type="submit"
-          style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
+<button style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;" type="submit">
     Continue
   </button>
-  <button id="exitButton"
-          onclick="confirmExit()"
-          style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
+<button id="exitButton" onclick="confirmExit()" style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
     Exit Experiment
   </button>
 </div>
@@ -132,7 +129,6 @@
   });
 </script>
 -->
-
 <script>
 function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
@@ -146,9 +142,6 @@ function confirmExit() {
     }
 }
 </script>
-
-
-
 <script>
 // SurveyStorage: Save STAIS_Post responses
 try {
@@ -161,9 +154,6 @@ try {
     console.warn("Failed to store STAIS_Post responses:", e);
 }
 </script>
-
-
-
 <script>// Injected storage for stais_post.html
 try {
     localStorage.setItem("STAIS_Post", JSON.stringify(surveyResponses));
@@ -171,7 +161,6 @@ try {
     console.warn("Failed to store stais_post.html data:", e);
 }
 </script>
-
 <script>
 // PostSurveyStorage for STAIS_Post
 document.addEventListener("DOMContentLoaded", function() {
@@ -187,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-
 <script>
 // PostSurveyRedirect
 document.addEventListener("DOMContentLoaded", function() {
@@ -204,6 +192,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-
-</body>
+<script>window.responseTimes.staisPostStart = Date.now();</script></body>
 </html>

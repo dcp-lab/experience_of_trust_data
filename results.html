@@ -1,18 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Download Results</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Download Results</title>
+<style>
     body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
     button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h2>Download Your Results</h2>
-  <p>Click the button below to download your responses as a JSON file.</p>
-
-  <script>
+<h2>Download Your Results</h2>
+<p>Click the button below to download your responses as a JSON file.</p>
+<script>
     function downloadResults() {
       const data = {};
       for (let i = 0; i < localStorage.length; i++) {
@@ -32,11 +32,7 @@
       a.click();
     }
   </script>
-
-  <button onclick="exportToCSV()">Download Data</button>
-
-  
-
+<button onclick="exportToCSV()">Download Data</button>
 <script>
   function exportToCSV() {
     let rows = ["Survey,Item,Value"];
@@ -115,6 +111,31 @@
     document.body.removeChild(link);
   }
 </script>
+<script>
+window.responseTimes.endTime = Date.now();
 
-</body>
+const rt = window.responseTimes;
+
+const experimentDuration = rt.endTime - rt.startTime;
+const ssvsDuration = rt.ssvsEnd - rt.ssvsStart;
+const panasDuration = rt.panasEnd - rt.panasStart;
+const staisDuration = rt.staisEnd - rt.staisStart;
+const panasPostDuration = rt.panasPostEnd - rt.panasPostStart;
+const staisPostDuration = rt.staisPostEnd - rt.staisPostStart;
+
+const trialDurations = rt.trials;
+
+const row = {
+  experimentDurationMs: experimentDuration,
+  ssvsDurationMs: ssvsDuration,
+  panasDurationMs: panasDuration,
+  staisDurationMs: staisDuration,
+  panasPostDurationMs: panasPostDuration,
+  staisPostDurationMs: staisPostDuration,
+  trialDurationsMs: JSON.stringify(trialDurations)
+};
+
+// You would now merge this row into your existing CSV export logic
+console.log("Timing data collected:", row);
+</script></body>
 </html>

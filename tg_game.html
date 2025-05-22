@@ -115,8 +115,6 @@
     background-color: #c82333;
 }
 </style>
-
-
 <style>
 .instruction-button {
     display: block;
@@ -135,7 +133,7 @@
 </style>
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 100vh; font-weight: bold; font-size: 20px; text-align: center;">
-  Please wait while the&nbsp;<span id="playerLabel"></span>&nbsp;is making its decision...
+  Please wait while the <span id="playerLabel"></span> is making its decision...
 </div>
 <div id="gameContent" style="display: none;">
 <div class="role-box">
@@ -366,7 +364,6 @@ function showInstructions() {
         });
 }
 </script>
-
 <script>
     // Simulated trial index (replace or integrate with your actual trial tracking logic)
     let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
@@ -384,5 +381,14 @@ function showInstructions() {
     // Increment for next load
     sessionStorage.setItem("currentTrial", currentTrial + 1);
 </script>
-</body>
+<script>
+let trialStartTime = Date.now();
+
+function recordTrialResponseTime() {
+    let trialEndTime = Date.now();
+    let trialDuration = trialEndTime - trialStartTime;
+    window.responseTimes.trials.push(trialDuration);
+    trialStartTime = Date.now(); // reset for next trial
+}
+</script></body>
 </html>
