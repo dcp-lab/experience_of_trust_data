@@ -138,24 +138,26 @@ const row = {
 // You would now merge this row into your existing CSV export logic
 console.log("Timing data collected:", row);
 </script>
+
+
 <script>
   window.responseTimes.endTime = Date.now();
   const rt = window.responseTimes;
 
   const timingData = [
-    { Survey: "Timing", Item: "experimentDurationMs", Value: rt.endTime - rt.startTime },
-    { Survey: "Timing", Item: "ssvsDurationMs", Value: rt.ssvsEnd - rt.ssvsStart },
-    { Survey: "Timing", Item: "panasDurationMs", Value: rt.panasEnd - rt.panasStart },
-    { Survey: "Timing", Item: "staisDurationMs", Value: rt.staisEnd - rt.staisStart },
-    { Survey: "Timing", Item: "panasPostDurationMs", Value: rt.panasPostEnd - rt.panasPostStart },
-    { Survey: "Timing", Item: "staisPostDurationMs", Value: rt.staisPostEnd - rt.staisPostStart },
-    { Survey: "Timing", Item: "trialDurationsMs", Value: JSON.stringify(rt.trials) }
+    ["Timing", "experimentDurationMs", rt.endTime - rt.startTime],
+    ["Timing", "ssvsDurationMs", rt.ssvsEnd - rt.ssvsStart],
+    ["Timing", "panasDurationMs", rt.panasEnd - rt.panasStart],
+    ["Timing", "staisDurationMs", rt.staisEnd - rt.staisStart],
+    ["Timing", "panasPostDurationMs", rt.panasPostEnd - rt.panasPostStart],
+    ["Timing", "staisPostDurationMs", rt.staisPostEnd - rt.staisPostStart],
+    ["Timing", "trialDurationsMs", JSON.stringify(rt.trials)]
   ];
 
-  if (typeof csvData !== 'undefined' && Array.isArray(csvData)) {
-    timingData.forEach(item => csvData.push(item));
-  } else {
-    console.warn("csvData is not defined. Timing data not appended.");
+  if (typeof rows !== 'undefined' && Array.isArray(rows)) {
+    timingData.forEach(([survey, item, value]) => {
+      rows.push(`${survey},${item},${value}`);
+    });
   }
 </script>
 </body>
