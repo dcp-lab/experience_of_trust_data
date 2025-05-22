@@ -289,5 +289,20 @@ function showInstructions() {
     }, 100);
   });
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let icon = sessionStorage.getItem("currentPlayerIcon");
+    if (!icon) {
+      const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
+      icon = icons[Math.floor(Math.random() * icons.length)];
+      sessionStorage.setItem("currentPlayerIcon", icon);
+    }
+    document.querySelectorAll(".playerIcon").forEach(span => {
+      span.textContent = `Player ${icon}`;
+    });
+  });
+</script>
+
 </body>
 </html>
