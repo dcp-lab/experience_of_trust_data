@@ -67,9 +67,10 @@
         rows.push(`GameResults,bonus,${bonus}`);
       }
 
-      const actualAverage = parseFloat(localStorage.getItem("actualAverage") || "0");
-      const actualAverageDivided = actualAverage / 3;
-      rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
+      const received = JSON.parse(localStorage.getItem("received") || "[]");
+      const averageReceived = received.reduce((sum, val) => sum + val, 0) / received.length;
+      const actualAverage = averageReceived / 3;
+      rows.push(`GameResults,actual_average,${actualAverage.toFixed(2)}`);
 
       const correctedDifference = actualAverageDivided - (estimate.averageExpected || 0);
       rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
