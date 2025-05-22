@@ -15,7 +15,6 @@
 
 <script>
   if (typeof window.responseTimes === 'undefined') {
-    window.responseTimes = {
       startTime: Date.now(),
       ssvsStart: null,
       ssvsEnd: null,
@@ -80,14 +79,6 @@
 
     // --- Timing Data ---
     if (typeof window.responseTimes !== "undefined") {
-      const rt = window.responseTimes;
-      rows.push(`Timing,experimentDurationMs,${rt.endTime - rt.startTime}`);
-      rows.push(`Timing,ssvsDurationMs,${rt.ssvsEnd - rt.ssvsStart}`);
-      rows.push(`Timing,panasDurationMs,${rt.panasEnd - rt.panasStart}`);
-      rows.push(`Timing,staisDurationMs,${rt.staisEnd - rt.staisStart}`);
-      rows.push(`Timing,panasPostDurationMs,${rt.panasPostEnd - rt.panasPostStart}`);
-      rows.push(`Timing,staisPostDurationMs,${rt.staisPostEnd - rt.staisPostStart}`);
-      rows.push(`Timing,trialDurationsMs,"${JSON.stringify(rt.trials)}"`);
     }
     if (before.length && sentBack.length && before.length === sentBack.length) {
       const after = before.map((val, i) => val - sentBack[i]);
@@ -140,12 +131,21 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    // --- Timing Data ---
+    if (typeof window.responseTimes !== "undefined") {
+      const rt = window.responseTimes;
+      rows.push(`Timing,experimentDurationMs,${rt.endTime - rt.startTime}`);
+      rows.push(`Timing,ssvsDurationMs,${rt.ssvsEnd - rt.ssvsStart}`);
+      rows.push(`Timing,panasDurationMs,${rt.panasEnd - rt.panasStart}`);
+      rows.push(`Timing,staisDurationMs,${rt.staisEnd - rt.staisStart}`);
+      rows.push(`Timing,panasPostDurationMs,${rt.panasPostEnd - rt.panasPostStart}`);
+      rows.push(`Timing,staisPostDurationMs,${rt.staisPostEnd - rt.staisPostStart}`);
+      rows.push(`Timing,trialDurationsMs,"${JSON.stringify(rt.trials)}"`);
+    }
   }
 </script>
 <script>
-window.responseTimes.endTime = Date.now();
 
-const rt = window.responseTimes;
 
 const experimentDuration = rt.endTime - rt.startTime;
 const ssvsDuration = rt.ssvsEnd - rt.ssvsStart;
@@ -172,8 +172,6 @@ console.log("Timing data collected:", row);
 
 
 <script>
-  window.responseTimes.endTime = Date.now();
-  const rt = window.responseTimes;
 
   const timingData = [
     ["Timing", "experimentDurationMs", rt.endTime - rt.startTime],
