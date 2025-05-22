@@ -114,6 +114,8 @@
     background-color: #c82333;
 }
 </style>
+
+
 <style>
 .instruction-button {
     display: block;
@@ -132,16 +134,16 @@
 </style>
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 100vh; font-weight: bold; font-size: 20px; text-align: center;">
-  Please wait while the Player &lt;span class='playerIcon'&gt;&lt;/span&gt; is making its decision...
+  Please wait while the Player A is making its decision...
 </div>
 <div id="gameContent" style="display: none;">
 <div class="role-box">
 <p>You are <strong>Player B</strong> in this game.</p>
-<p>New Player &lt;span class='playerIcon'&gt;&lt;/span&gt; has received 12 coins and has chosen to send you a certain number of them.</p>
-<p>The amount Player &lt;span class='playerIcon'&gt;&lt;/span&gt; sent has been <strong>tripled</strong> before reaching you.</p>
+<p>New Player A has received 12 coins and has chosen to send you a certain number of them.</p>
+<p>The amount Player A sent has been <strong>tripled</strong> before reaching you.</p>
 </div>
 <div class="coin-display">
-<div class="row-label">Amount sent by Player &lt;span class='playerIcon'&gt;&lt;/span&gt;:</div>
+<div class="row-label">Amount sent by Player A:</div>
 <div class="coin-row" id="amountSentRow"></div>
 <div class="row-label">Amount tripled:</div>
 <div class="coin-row"><span class="summary-text" id="tripledSummary"></span></div>
@@ -151,7 +153,7 @@
 <div class="coin-row"><span class="summary-text" id="totalSummary"></span></div>
 </div>
 <div class="input-box">
-<label for="sendBack">How many coins do you want to send back to Player &lt;span class='playerIcon'&gt;&lt;/span&gt;?</label><br/>
+<label for="sendBack">How many coins do you want to send back to Player A?</label><br/>
 <input id="sendBack" min="0" type="number"/>
 </div>
 <div class="button-container">
@@ -364,32 +366,5 @@ function showInstructions() {
         });
 }
 </script>
-
-<script>
-  const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-  const icon = icons[Math.floor(Math.random() * icons.length)];
-  sessionStorage.setItem("currentPlayerIcon", icon);
-  document.addEventListener("DOMContentLoaded", function() {
-    setTimeout(() => {
-      const spans = document.querySelectorAll(".playerIcon");
-      spans.forEach(span => span.textContent = icon);
-    }, 100);
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let icon = sessionStorage.getItem("currentPlayerIcon");
-    if (!icon) {
-      const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-      icon = icons[Math.floor(Math.random() * icons.length)];
-      sessionStorage.setItem("currentPlayerIcon", icon);
-    }
-    document.querySelectorAll(".playerIcon").forEach(span => {
-      span.textContent = `Player ${icon}`;
-    });
-  });
-</script>
-
 </body>
 </html>

@@ -55,6 +55,8 @@
     background-color: #c82333;
 }
 </style>
+
+
 <style>
 .instruction-button {
     display: block;
@@ -73,16 +75,16 @@
 </style>
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 200px; font-weight: bold; font-size: 20px; text-align: center;">
-  Waiting for the decision of next Player &lt;span class='playerIcon'&gt;&lt;/span&gt;...
+  Waiting for the decision of next Player A...
 </div>
 <div id="gameContent" style="display: none;">
 <div class="role-box">
 <p>You are <strong>Player B</strong> in this game.</p>
-<p>New Player &lt;span class='playerIcon'&gt;&lt;/span&gt; has received 12 coins and has decided how many coins to give you.</p>
+<p>New Player A has received 12 coins and has decided how many coins to give you.</p>
 <p>That amount has been tripled before reaching you.</p>
 </div>
 <div class="coin-row">
-<span class="summary-text">Amount sent by Player &lt;span class='playerIcon'&gt;&lt;/span&gt;:</span>
+<span class="summary-text">Amount sent by Player A:</span>
 <div class="coin-row" id="amountSentRow"></div>
 </div>
 <div class="coin-row">
@@ -277,32 +279,5 @@ function showInstructions() {
         });
 }
 </script>
-
-<script>
-  const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-  const icon = icons[Math.floor(Math.random() * icons.length)];
-  sessionStorage.setItem("currentPlayerIcon", icon);
-  document.addEventListener("DOMContentLoaded", function() {
-    setTimeout(() => {
-      const spans = document.querySelectorAll(".playerIcon");
-      spans.forEach(span => span.textContent = icon);
-    }, 100);
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let icon = sessionStorage.getItem("currentPlayerIcon");
-    if (!icon) {
-      const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-      icon = icons[Math.floor(Math.random() * icons.length)];
-      sessionStorage.setItem("currentPlayerIcon", icon);
-    }
-    document.querySelectorAll(".playerIcon").forEach(span => {
-      span.textContent = `Player ${icon}`;
-    });
-  });
-</script>
-
 </body>
 </html>

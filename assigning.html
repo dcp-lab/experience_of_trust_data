@@ -3,14 +3,6 @@
 
 <html lang="en">
 <head>
-<script>
-  if (!sessionStorage.getItem("currentPlayerIcon")) {
-    const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-    const icon = icons[Math.floor(Math.random() * icons.length)];
-    sessionStorage.setItem("currentPlayerIcon", icon);
-  }
-</script>
-
 <meta charset="utf-8"/>
 <title>Waiting...</title>
 <style>
@@ -44,12 +36,6 @@
     const nextPage = condition === "TG" ? "practice_tg.html" : "practice_dg.html";
     window.location.href = nextPage;
   }, 3000);
-</script>
-
-<script>
-  const icons = ["🎲", "🧩", "🎯", "🃏", "♟️", "🧃", "🪀", "🧸", "🚀", "🐾"];
-  const icon = icons[Math.floor(Math.random() * icons.length)];
-  sessionStorage.setItem("currentPlayerIcon", icon);
 </script>
 </body>
 </html>
