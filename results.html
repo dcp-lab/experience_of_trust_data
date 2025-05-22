@@ -12,6 +12,26 @@
 <body>
 <h2>Download Your Results</h2>
 <p>Click the button below to download your responses as a JSON file.</p>
+
+<script>
+  if (typeof window.responseTimes === 'undefined') {
+    window.responseTimes = {
+      startTime: Date.now(),
+      ssvsStart: null,
+      ssvsEnd: null,
+      panasStart: null,
+      panasEnd: null,
+      staisStart: null,
+      staisEnd: null,
+      panasPostStart: null,
+      panasPostEnd: null,
+      staisPostStart: null,
+      staisPostEnd: null,
+      trials: [],
+      endTime: null
+    };
+  }
+</script>
 <script>
     function downloadResults() {
       const data = {};
