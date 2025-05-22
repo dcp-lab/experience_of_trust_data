@@ -1,37 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Download Results</title>
-<style>
+  <meta charset="utf-8"/>
+  <title>Download Results</title>
+  <style>
     body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
     button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-<h2>Download Your Results</h2>
-<p>Click the button below to download your responses as a JSON file.</p>
+  <h2>Download Your Results</h2>
+  <p>Click the button below to download your responses as a JSON file.</p>
 
-<script>
-  if (typeof window.responseTimes === 'undefined') {
-      startTime: Date.now(),
-      ssvsStart: null,
-      ssvsEnd: null,
-      panasStart: null,
-      panasEnd: null,
-      staisStart: null,
-      staisEnd: null,
-      panasPostStart: null,
-      panasPostEnd: null,
-      staisPostStart: null,
-      staisPostEnd: null,
-      trials: [],
-      endTime: null
-    };
-  }
-</script>
-<script>
+  <script>
     function downloadResults() {
       const data = {};
       for (let i = 0; i < localStorage.length; i++) {
@@ -51,7 +32,11 @@
       a.click();
     }
   </script>
-<button onclick="exportToCSV()">Download Data</button>
+
+  <button onclick="exportToCSV()">Download Data</button>
+
+  
+
 <script>
   function exportToCSV() {
     let rows = ["Survey,Item,Value"];
@@ -77,9 +62,6 @@
     rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
     rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
 
-    // --- Timing Data ---
-    if (typeof window.responseTimes !== "undefined") {
-    }
     if (before.length && sentBack.length && before.length === sentBack.length) {
       const after = before.map((val, i) => val - sentBack[i]);
       rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
@@ -131,63 +113,8 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    // --- Timing Data ---
-    if (typeof window.responseTimes !== "undefined") {
-      const rt = window.responseTimes;
-      rows.push(`Timing,experimentDurationMs,${rt.endTime - rt.startTime}`);
-      rows.push(`Timing,ssvsDurationMs,${rt.ssvsEnd - rt.ssvsStart}`);
-      rows.push(`Timing,panasDurationMs,${rt.panasEnd - rt.panasStart}`);
-      rows.push(`Timing,staisDurationMs,${rt.staisEnd - rt.staisStart}`);
-      rows.push(`Timing,panasPostDurationMs,${rt.panasPostEnd - rt.panasPostStart}`);
-      rows.push(`Timing,staisPostDurationMs,${rt.staisPostEnd - rt.staisPostStart}`);
-      rows.push(`Timing,trialDurationsMs,"${JSON.stringify(rt.trials)}"`);
-    }
   }
 </script>
-<script>
 
-
-const experimentDuration = rt.endTime - rt.startTime;
-const ssvsDuration = rt.ssvsEnd - rt.ssvsStart;
-const panasDuration = rt.panasEnd - rt.panasStart;
-const staisDuration = rt.staisEnd - rt.staisStart;
-const panasPostDuration = rt.panasPostEnd - rt.panasPostStart;
-const staisPostDuration = rt.staisPostEnd - rt.staisPostStart;
-
-const trialDurations = rt.trials;
-
-const row = {
-  experimentDurationMs: experimentDuration,
-  ssvsDurationMs: ssvsDuration,
-  panasDurationMs: panasDuration,
-  staisDurationMs: staisDuration,
-  panasPostDurationMs: panasPostDuration,
-  staisPostDurationMs: staisPostDuration,
-  trialDurationsMs: JSON.stringify(trialDurations)
-};
-
-// You would now merge this row into your existing CSV export logic
-console.log("Timing data collected:", row);
-</script>
-
-
-<script>
-
-  const timingData = [
-    ["Timing", "experimentDurationMs", rt.endTime - rt.startTime],
-    ["Timing", "ssvsDurationMs", rt.ssvsEnd - rt.ssvsStart],
-    ["Timing", "panasDurationMs", rt.panasEnd - rt.panasStart],
-    ["Timing", "staisDurationMs", rt.staisEnd - rt.staisStart],
-    ["Timing", "panasPostDurationMs", rt.panasPostEnd - rt.panasPostStart],
-    ["Timing", "staisPostDurationMs", rt.staisPostEnd - rt.staisPostStart],
-    ["Timing", "trialDurationsMs", JSON.stringify(rt.trials)]
-  ];
-
-  if (typeof rows !== 'undefined' && Array.isArray(rows)) {
-    timingData.forEach(([survey, item, value]) => {
-      rows.push(`${survey},${item},${value}`);
-    });
-  }
-</script>
 </body>
 </html>
