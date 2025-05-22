@@ -74,10 +74,12 @@
 
     if (order === "PANAS_first") {
       // This is the first post-survey → go to STAIS next
-      window.location.href = "stais_post.html";
+      window.window.responseTimes.panasPostEnd = Date.now();
+    location.href = "stais_post.html";
     } else {
       // PANAS was second → done
-      window.location.href = "debrief.html";
+      window.window.responseTimes.panasPostEnd = Date.now();
+    location.href = "debrief.html";
     }
   });
 </script>

@@ -62,9 +62,11 @@
   const task = localStorage.getItem("Condition");
 
   if (order === "STAIS_first") {
-    window.location.href = "panas.html";
+    window.window.responseTimes.staisEnd = Date.now();
+    location.href = "panas.html";
   } else {
-    window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+    window.window.responseTimes.staisEnd = Date.now();
+    location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
   }
   });
   </script>

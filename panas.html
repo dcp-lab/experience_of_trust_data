@@ -72,15 +72,19 @@
       
       if (isPost) {
         if (order === "PANAS_first") {
-          window.location.href = "stais_post.html";
+          window.window.responseTimes.panasEnd = Date.now();
+    location.href = "stais_post.html";
         } else {
-          window.location.href = "debrief.html";
+          window.window.responseTimes.panasEnd = Date.now();
+    location.href = "debrief.html";
         }
       } else {
         if (order === "PANAS_first") {
-          window.location.href = "stais.html";
+          window.window.responseTimes.panasEnd = Date.now();
+    location.href = "stais.html";
         } else {
-          window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+          window.window.responseTimes.panasEnd = Date.now();
+    location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
         }
       }
     });

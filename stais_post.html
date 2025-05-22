@@ -63,10 +63,12 @@
 
     if (order === "STAIS_first") {
       // This is the first post-survey → go to PANAS next
-      window.location.href = "panas_post.html";
+      window.window.responseTimes.staisPostEnd = Date.now();
+    location.href = "panas_post.html";
     } else {
       // STAIS was second → done
-      window.location.href = "debrief.html";
+      window.window.responseTimes.staisPostEnd = Date.now();
+    location.href = "debrief.html";
     }
   });
 </script>
