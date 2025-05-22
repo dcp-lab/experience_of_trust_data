@@ -71,7 +71,7 @@
       const actualAverageDivided = actualAverage / 3;
       rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
 
-      const correctedDifference = actualAverageDivided - estimate;
+      const correctedDifference = actualAverageDivided - (estimate.averageExpected || 0);
       rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
 
       // --- Surveys ---
