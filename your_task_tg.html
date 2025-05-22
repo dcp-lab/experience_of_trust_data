@@ -30,15 +30,19 @@
 <b>Task</b><br/>
 <b>Before playing, you will be asked to estimate how much of the 12 monetary units you expect to give (if assigned to Player A) or to receive (if assigned to Player B) on average per trial.</b><br/><br/>
 </div>
-<button onclick="sessionStorage.setItem('nextPage', 'practice_tg.html'); window.location.href = 'assigning.html';"
-        style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; margin-top: 40px;">
-  Continue
-</button>
-<button id="exitButton"
-        onclick="confirmExit()"
-        style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; margin-top: 40px; margin-left: 20px;">
-  Exit Experiment
-</button>
+
+<div style="display: flex; justify-content: space-between; max-width: 600px; margin-top: 40px;">
+  <button onclick="sessionStorage.setItem('nextPage', 'practice_tg.html'); window.location.href = 'assigning.html';"
+          style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;">
+    Continue
+  </button>
+  <button id="exitButton"
+          style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px;"
+          onclick="confirmExit()">
+    Exit Experiment
+  </button>
+</div>
+
 
 <script>
 function confirmExit() {
