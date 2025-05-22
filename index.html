@@ -1,22 +1,39 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Information Sheet</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Information Sheet</title>
+<style>
     body { font-family: Arial, sans-serif; padding: 40px; max-width: 900px; margin: auto; line-height: 1.6; }
     h2, h3 { color: #003366; }
     button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h1>Welcome to the Experiment</h1>
-  <p>This study explores emotional states and decision-making in social tasks.</p>
-  
-  <p>Please ensure you are in a quiet environment and can dedicate about 15–20 minutes to complete it.</p>
-  <button onclick="startExperiment()">Start</button>
+<script>
+  window.responseTimes = {
+    startTime: Date.now(),
+    ssvsStart: null,
+    ssvsEnd: null,
+    panasStart: null,
+    panasEnd: null,
+    staisStart: null,
+    staisEnd: null,
+    panasPostStart: null,
+    panasPostEnd: null,
+    staisPostStart: null,
+    staisPostEnd: null,
+    trials: [],
+    endTime: null
+  };
+</script>
 
-  <script>
+<h1>Welcome to the Experiment</h1>
+<p>This study explores emotional states and decision-making in social tasks.</p>
+<p>Please ensure you are in a quiet environment and can dedicate about 15–20 minutes to complete it.</p>
+<button onclick="startExperiment()">Start</button>
+<script>
     function startExperiment() {
       // Set survey and game condition
       const condition = Math.random() < 0.5 ? "DG" : "TG";
@@ -26,7 +43,6 @@
       window.location.href = "pre_information.html";
     }
   </script>
-	
 <script>
 // GET PROLIFIC ID
 function getQueryVariable(variable) {
@@ -53,8 +69,6 @@ if (window.location.search.indexOf('STUDY_ID') > -1) {
    studyID = 0;
 }
 </script>
-
-         
 <script>// Injected storage for index.html
 try {
     localStorage.setItem("Condition", condition);
@@ -62,7 +76,6 @@ try {
     console.warn("Failed to store index.html data:", e);
 }
 </script>
-
 <script>
 function generateTrials() {
     const lists = [[4, 11, 10, 9, 1, 11, 8, 3, 12, 11], [11, 10, 4, 1, 9, 11, 12, 11, 8, 3], [12, 11, 8, 3, 11, 9, 1, 11, 4, 10]];
@@ -74,6 +87,5 @@ function generateTrials() {
 }
 generateTrials();
 </script>
-
 </body>
 </html>
