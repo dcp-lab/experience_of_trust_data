@@ -63,10 +63,7 @@
       const actualAverageDivided = actualAverage / 3;
       rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
 
-      const expectedAverage = parseFloat(localStorage.getItem("expectedAverage") || "0");
-      rows.push(`GameResults,expected_average,${expectedAverage.toFixed(2)}`);
-
-      const correctedDifference = actualAverageDivided - expectedAverage;
+      const correctedDifference = actualAverageDivided - estimate;
       rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
 
       if (before.length && sentBack.length && before.length === sentBack.length) {
