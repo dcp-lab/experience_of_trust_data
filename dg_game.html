@@ -313,5 +313,19 @@ function recordTrialResponseTime() {
     window.responseTimes.trials.push(trialEndTime - trialStartTime);
     trialStartTime = Date.now(); // reset for next trial
 }
+</script><script>
+let trialStartTime = Date.now();
+
+function recordTrialResponseTime() {
+    const now = Date.now();
+    if (!window.responseTimes) {
+        window.responseTimes = { trials: [] };
+    }
+    if (!Array.isArray(window.responseTimes.trials)) {
+        window.responseTimes.trials = [];
+    }
+    window.responseTimes.trials.push(now - trialStartTime);
+    trialStartTime = Date.now();
+}
 </script></body>
 </html>
