@@ -59,16 +59,6 @@
       rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
       rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
 
-      const actualAverage = parseFloat(localStorage.getItem("actualAverage") || "0");
-      const actualAverageDivided = actualAverage / 3;
-      rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
-
-      const expectedAverage = parseFloat(localStorage.getItem("expectedAverage") || "0");
-      rows.push(`GameResults,expected_average,${expectedAverage.toFixed(2)}`);
-
-      const correctedDifference = actualAverageDivided - expectedAverage;
-      rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
-
       if (before.length && sentBack.length && before.length === sentBack.length) {
         const after = before.map((val, i) => val - sentBack[i]);
         rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
@@ -76,6 +66,13 @@
         const bonus = (totalAfterPlaying * 0.002).toFixed(2);
         rows.push(`GameResults,bonus,${bonus}`);
       }
+
+      const actualAverage = parseFloat(localStorage.getItem("actualAverage") || "0");
+      const actualAverageDivided = actualAverage / 3;
+      rows.push(`GameResults,actual_average,${actualAverageDivided.toFixed(2)}`);
+
+      const correctedDifference = actualAverageDivided - estimate;
+      rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
 
       // --- Surveys ---
       const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
