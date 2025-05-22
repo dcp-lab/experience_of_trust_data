@@ -35,78 +35,42 @@
 
   <button onclick="exportToCSV()">Download Data</button>
 
-  <script>
-    function exportToCSV() {
-      let rows = ["Survey,Item,Value"];
+  
 
-      const condition = localStorage.getItem("Condition");
-      if (condition) rows.push(`Condition,GameType,${condition}`);
+<script>
+  function exportToCSV() {
+    let rows = ["Survey,Item,Value"];
 
-      const prolificID = localStorage.getItem("ProlificID");
-      if (prolificID) rows.push(`Participant,ProlificID,${prolificID}`);
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+    const before = received.map(val => val + 12);
 
-      const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
-      if (estimate.averageExpected !== undefined) {
-        rows.push(`Estimate,ExpectedAverage,${estimate.averageExpected}`);
-      }
+    rows.push(`GameResults,amounts_received,"[${received.join(", ")}]"`);
+    rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
+    rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
 
-      // --- Game Data ---
-      const received = JSON.parse(localStorage.getItem("received") || "[]");
-      const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
-      const before = received.map(val => val + 12);
-
-      rows.push(`GameResults,amounts_received,"[${received.join(", ")}]"`);
-      rows.push(`GameResults,total_amount_in_hand_before_playing,"[${before.join(", ")}]"`);
-      rows.push(`GameResults,amounts_sent_back,"[${sentBack.join(", ")}]"`);
-
-      if (before.length && sentBack.length && before.length === sentBack.length) {
-        const after = before.map((val, i) => val - sentBack[i]);
-        rows.push(`GameResults,total_amount_in_hand_after_playing,"[${after.join(", ")}]"`);
-        const totalAfterPlaying = after.reduce((sum, val) => sum + val, 0);
-        const bonus = (totalAfterPlaying * 0.002).toFixed(2);
-        rows.push(`GameResults,bonus,${bonus}`);
-      }
-
-      const received = JSON.parse(localStorage.getItem("received") || "[]");
+    if (received.length > 0) {
       const averageReceived = received.reduce((sum, val) => sum + val, 0) / received.length;
       const actualAverage = averageReceived / 3;
       rows.push(`GameResults,actual_average,${actualAverage.toFixed(2)}`);
-
-      const correctedDifference = actualAverageDivided - (estimate.averageExpected || 0);
+      const correctedDifference = actualAverage - (estimate.averageExpected || 0);
       rows.push(`GameResults,difference,${correctedDifference.toFixed(2)}`);
-
-      // --- Surveys ---
-      const surveys = ["SSVS", "STAIS", "STAIS_Post", "PANAS", "PANAS_Post"];
-      surveys.forEach(survey => {
-        const data = JSON.parse(localStorage.getItem(survey) || "null");
-        if (!data) return;
-        if (Array.isArray(data)) {
-          data.forEach((item, index) => {
-            if (typeof item === 'object') {
-              Object.entries(item).forEach(([key, value]) => {
-                rows.push(`${survey},${key},${value}`);
-              });
-            } else {
-              rows.push(`${survey},Item${index + 1},${item}`);
-            }
-          });
-        } else if (typeof data === 'object') {
-          Object.entries(data).forEach(([key, value]) => {
-            rows.push(`${survey},${key},${value}`);
-          });
-        }
-      });
-
-      // --- Download CSV ---
-      const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "survey_results.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    } else {
+      rows.push(`GameResults,actual_average,NaN`);
+      rows.push(`GameResults,difference,NaN`);
     }
-  </script>
+
+    const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "survey_results.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+
 </body>
 </html>
