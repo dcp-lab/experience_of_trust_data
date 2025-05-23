@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,6 +104,37 @@
         });
       }
     });
+
+    // --- Timing Data ---
+      const ssvsDuration = localStorage.getItem("ssvsDuration");
+      if (ssvsDuration) {
+        rows.push(`Timing,ssvsDurationMs,${ssvsDuration}`);
+      }
+      const panasDuration = localStorage.getItem("panasDuration");
+      if (panasDuration) {
+      rows.push(`Timing,panasDurationMs,${panasDuration}`);
+      }
+      const staisDuration = localStorage.getItem("staisDuration");
+      if (staisDuration) {
+      rows.push(`Timing,staisDurationMs,${staisDuration}`);
+      }
+      const panasPostDuration = localStorage.getItem("panasPostDuration");
+      if (panasPostDuration) {
+      rows.push(`Timing,panasPostDurationMs,${panasPostDuration}`);
+      }
+      const staisPostDuration = localStorage.getItem("staisPostDuration");
+      if (staisPostDuration) {
+      rows.push(`Timing,staisPostDurationMs,${staisPostDuration}`);
+      }
+      const trustDurations = JSON.parse(localStorage.getItem("trustDurations") || "[]");
+      if (trustDurations.length > 0) {
+        rows.push(`Timing,TrustTrialDurations,"[${trustDurations.join(", ")}]"`);
+      }
+      const dictatorDurations = JSON.parse(localStorage.getItem("dictatorDurations") || "[]");
+      if (dictatorDurations.length > 0) {
+        rows.push(`Timing,DictatorTrialDurations,"[${dictatorDurations.join(", ")}]"`);
+      }
+
 
     // --- Download CSV ---
     const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");

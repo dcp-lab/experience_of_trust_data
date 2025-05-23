@@ -13,6 +13,10 @@
   </style>
 </head>
 <body>
+<script>
+  window.responseTimes = window.responseTimes || {};
+  window.responseTimes.panasStart = Date.now();
+</script>
 <h2>Survey (Pre)</h2>
 <div class="scale-title">
 <b>Instructions:</b><br/><br/>
@@ -75,14 +79,22 @@
       
       if (isPost) {
         if (order === "PANAS_first") {
+          const panasEnd = Date.now();
+          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
           window.location.href = "stais_post.html";
         } else {
+          const panasEnd = Date.now();
+          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
           window.location.href = "debrief.html";
         }
       } else {
         if (order === "PANAS_first") {
+          const panasEnd = Date.now();
+          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
           window.location.href = "stais.html";
         } else {
+          const panasEnd = Date.now();
+          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
           window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
         }
       }
@@ -128,16 +140,6 @@ function confirmExit() {
         });
         window.location.href = "index.html";
     }
-}
-</script>
-
-
-
-<script>// Injected storage for panas.html
-try {
-    localStorage.setItem("PANAS", JSON.stringify(surveyResponses));
-} catch (e) {
-    console.warn("Failed to store panas.html data:", e);
 }
 </script>
 </body>

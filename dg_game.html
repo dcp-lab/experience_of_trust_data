@@ -1,114 +1,118 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Dictator Game</title>
-<style>
-    body { font-family: Arial, sans-serif; padding: 40px; max-width: 1000px; margin: auto; background-color: #fff; line-height: 1.6; }
-    .role-box { padding: 20px; background-color: #f2f2f2; border-left: 6px solid #3498db; margin-bottom: 30px; }
-    .coin-row { display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 25px; }
-    .coin { width: 30px; height: 30px; background-color: #f1c40f; border-radius: 50%; margin: 2px; }
-    .coin.faded { background-color: #e0e0e0; }
-    .summary-text { font-size: 18px; margin-left: 15px; font-weight: bold; }
-    button { padding: 12px 24px; font-size: 16px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; }
-    button:hover { background-color: #2ecc71; }
+  <meta charset="utf-8" />
+  <title>Dictator Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 1000px;
+      margin: auto;
+      background-color: #fff;
+      line-height: 1.6;
+    }
+    .role-box {
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-left: 6px solid #3498db;
+      margin-bottom: 30px;
+    }
+    .coin-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    .coin {
+      width: 30px;
+      height: 30px;
+      background-color: #f1c40f;
+      border-radius: 50%;
+      margin: 2px;
+    }
+    .coin.faded {
+      background-color: #e0e0e0;
+    }
+    .summary-text {
+      font-size: 18px;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .button-common {
+      width: 220px;
+      padding: 12px 24px;
+      font-size: 16px;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .continue-button { background-color: #28a745; }
+    .instruction-button { background-color: #007bff; }
+    .exit-button { background-color: #dc3545; }
+    .continue-button:hover { background-color: #1e7e34; }
+    .instruction-button:hover { background-color: #0056b3; }
+    .exit-button:hover { background-color: #c82333; }
   </style>
 </head>
 <body>
-<style>
-.button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: 20px;
-}
-.button-common {
-    width: 220px;
-    padding: 12px 24px;
-    font-size: 16px;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin: 0;
-}
-.continue-button {
-    background-color: #28a745;
-}
-.instruction-button {
-    background-color: #007bff;
-}
-.exit-button {
-    background-color: #dc3545;
-}
-.continue-button:hover {
-    background-color: #1e7e34;
-}
-.instruction-button:hover {
-    background-color: #0056b3;
-}
-.exit-button:hover {
-    background-color: #c82333;
-}
-</style>
-
-
-<style>
-.instruction-button {
-    display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-.instruction-button:hover {
-    background-color: #0056b3;
-}
-</style>
 <h3 id="roundHeader"></h3>
 <div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 200px; font-weight: bold; font-size: 20px; text-align: center;">
-  Waiting for the decision of next&nbsp;<span id="playerLabel"></span>...
+  Please wait while the&nbsp;<span id="playerLabel"></span>&nbsp;is making its decision...
 </div>
 <div id="gameContent" style="display: none;">
-<div class="role-box">
-<p><b><span id="playerLabel"></span></b> has an initial endowment of 12 coins and has decided how many coins to give you.</p>
-<p>That amount has been tripled before reaching you.</p>
+  <div class="role-box">
+    <p><b><span id="playerLabel"></span></b> has an initial endowment of 12 coins and has decided how many coins to give you.</p>
+    <p>That amount has been tripled before reaching you.</p>
+  </div>
+  <div class="coin-row">
+    <span class="summary-text">Amount sent by <span id="playerLabel"></span>:</span>
+    <div class="coin-row" id="amountSentRow"></div>
+  </div>
+  <div class="coin-row">
+    <span class="summary-text">Amount tripled:</span>
+    <span class="summary-text" id="tripledSummary"></span>
+  </div>
+  <div class="coin-row">
+    <span class="summary-text">Your initial endowment:</span>
+    <span class="summary-text" id="endowmentSummary"></span>
+  </div>
+  <div class="coin-row">
+    <span class="summary-text">Total Amount in hand for that round:</span>
+    <span class="summary-text" id="totalSummary"></span>
+  </div>
+  <div class="button-container">
+    <button class="button-common continue-button" onclick="submitDecision()">Continue</button>
+    <button class="button-common instruction-button" onclick="showInstructions()">Instructions</button>
+    <button class="button-common exit-button" onclick="confirmExit()">Exit Experiment</button>
+  </div>
 </div>
-<div class="coin-row">
-<span class="summary-text">Amount sent by <span id="playerLabel"></span>:</span>
-<div class="coin-row" id="amountSentRow"></div>
+
+<form id="dictatorDataForm" style="display: none;">
+  <input id="inputReceived" name="received" type="hidden" />
+  <input id="inputTotal" name="total" type="hidden" />
+</form>
+
+<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
+  <button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
+  <div id="instructionContent">Loading...</div>
 </div>
-<div class="coin-row">
-<span class="summary-text">Amount tripled:</span>
-<span class="summary-text" id="tripledSummary"></span>
-</div>
-<div class="coin-row">
-<span class="summary-text">Your initial endowment:</span>
-<span class="summary-text" id="endowmentSummary"></span>
-</div>
-<div class="coin-row">
-<span class="summary-text">Total Amount in hand for that round:</span>
-<span class="summary-text" id="totalSummary"></span>
-</div>
-<br/>
-<div class="button-container">
-<button class="button-common continue-button" onclick="submitDecision()">Continue</button>
-<button class="button-common instruction-button" onclick="showInstructions()">Instructions</button>
-<button class="button-common exit-button" onclick="confirmExit()">Exit Experiment</button>
-</div>
-</div>
+
 <script>
-  // Use 0-based trial index like in Trust Game
+  window.responseTimes = window.responseTimes || {};
+  window.responseTimes.dictatorTrialTimes = JSON.parse(localStorage.getItem("dictatorDurations") || "[]");
+
   let trial = parseInt(localStorage.getItem("DictatorTrial") || "0");
 
-  // Generate trials if missing
   if (!localStorage.getItem("DictatorTrialValues")) {
     const high = Array.from({ length: 6 }, () => Math.floor(Math.random() * 5) + 8);
     const any = Array.from({ length: 4 }, () => Math.floor(Math.random() * 13));
@@ -119,14 +123,6 @@
 
   const trialValues = JSON.parse(localStorage.getItem("DictatorTrialValues") || "[]");
   const amountSent = trialValues[trial];
-
-  if (!trialValues.length || amountSent === undefined) {
-    alert("Trial data is corrupted or missing. Restarting...");
-    localStorage.removeItem("DictatorTrialValues");
-    localStorage.removeItem("DictatorTrial");
-    window.location.href = "index.html";
-  }
-
   const tripledAmount = amountSent * 3;
   const initialEndowment = 12;
   const totalInHand = tripledAmount + initialEndowment;
@@ -148,152 +144,105 @@
   }
 
   function updateGameContent() {
-  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
-  drawSentRow("amountSentRow", amountSent);
-  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
-  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
-  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
-  document.getElementById("inputReceived").value = tripledAmount;
-  document.getElementById("inputTotal").value = totalInHand;
-}
+    document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
+    drawSentRow("amountSentRow", amountSent);
+    document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
+    document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
+    document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
+    document.getElementById("inputReceived").value = tripledAmount;
+    document.getElementById("inputTotal").value = totalInHand;
+  }
+
+  function submitDecision() {
+    roundResults.push({ trial: trial + 1, amountSent, tripledAmount, totalInHand });
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    received[trial] = tripledAmount;
+    localStorage.setItem("received", JSON.stringify(received));
+
+    const totalEachTrial = [...received];
+    const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
+    const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+    const difference = actualAverage - expectedAverage;
+
+    localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
+    localStorage.setItem("actualAverage", actualAverage.toFixed(1));
+    localStorage.setItem("difference", difference.toFixed(1));
+
+    const endTime = Date.now();
+    const duration = endTime - window.responseTimes.dictatorStartTime;
+    window.responseTimes.dictatorTrialTimes.push(duration);
+    window.responseTimes.dictatorStartTime = endTime;
+    localStorage.setItem("dictatorDurations", JSON.stringify(window.responseTimes.dictatorTrialTimes));
+
+    trial++;
+    localStorage.setItem("DictatorTrial", trial.toString());
+    localStorage.setItem("DictatorResults", JSON.stringify(roundResults));
+
+    if (trial >= trialValues.length) {
+      const order = localStorage.getItem("SurveyOrder");
+      const nextPage = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+      window.location.href = nextPage;
+    } else {
+      location.reload();
+    }
+  }
 
   function showGameAfterDelay() {
     if (trial < trialValues.length) {
       document.getElementById("waitingScreen").style.display = "flex";
       document.getElementById("gameContent").style.display = "none";
       setTimeout(() => {
-        updateGameContent();
-        document.getElementById("waitingScreen").style.display = "none";
-        document.getElementById("gameContent").style.display = "block";
-      }, 3000);
+      updateGameContent();
+      document.getElementById("waitingScreen").style.display = "none";
+      document.getElementById("gameContent").style.display = "block";
+      window.responseTimes.dictatorStartTime = Date.now();  // For DG
+    }, 3000);
     } else {
-      updateGameContent();  // fallback
+      updateGameContent(); // fallback
     }
   }
 
-  function submitDecision() {
-    roundResults.push({ trial: trial + 1, amountSent, tripledAmount, totalInHand });
-    trial++;
-
-    if (trial >= trialValues.length) {
-      localStorage.setItem("DictatorResults", JSON.stringify(roundResults));
-      localStorage.setItem("DictatorTrial", "0");
-      const order = localStorage.getItem("SurveyOrder");
-      const nextPage = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-      window.location.href = nextPage;
-    } else {
-      localStorage.setItem("DictatorTrial", trial.toString());
-      localStorage.setItem("DictatorResults", JSON.stringify(roundResults));
-      location.reload();
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", showGameAfterDelay);
-</script>
-<script>
-function confirmExit() {
+  function confirmExit() {
     const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
     if (confirmed) {
-        localStorage.clear();
-        sessionStorage.clear();
-        document.cookie.split(";").forEach(function(c) {
-            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
-        });
-        window.location.href = "index.html";
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+      });
+      window.location.href = "index.html";
     }
-}
-</script>
-<script>// Injected storage for dg_game.html
-try {
-
-localStorage.setItem("received", JSON.stringify(received));
-localStorage.setItem("expectedAverage", expectedAverage.toString());
-localStorage.setItem("actualAverage", actualAverage.toString());
-localStorage.setItem("difference", difference.toString());
-
-} catch(e) { console.warn(e); }
-</script>
-<form id="dictatorDataForm" style="display: none;">
-<input id="inputReceived" name="received" type="hidden"/>
-<input id="inputTotal" name="total" type="hidden"/>
-</form>
-<script>
-// GameResults: Reliable form-driven storage for Dictator Game
-function updateGameContent() {
-  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
-  drawSentRow("amountSentRow", amountSent);
-  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
-  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
-  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
-  document.getElementById("inputReceived").value = tripledAmount;
-  document.getElementById("inputTotal").value = totalInHand;
-}
-
-function submitDecision() {
-  const trial = parseInt(localStorage.getItem("DictatorTrial") || "0");
-  const receivedVal = parseInt(document.getElementById("inputReceived").value, 10);
-  const totalVal = parseInt(document.getElementById("inputTotal").value, 10);
-
-  const received = JSON.parse(localStorage.getItem("received") || "[]");
-  received[trial] = receivedVal;
-  localStorage.setItem("received", JSON.stringify(received));
-
-  const totalEachTrial = [...received];
-  const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
-  const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
-  const difference = actualAverage - expectedAverage;
-
-  localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-  localStorage.setItem("actualAverage", actualAverage.toFixed(1));
-  localStorage.setItem("difference", difference.toFixed(1));
-  localStorage.setItem("DictatorTrial", (trial + 1).toString());
-
-  const order = localStorage.getItem("SurveyOrder");
-  if (trial + 1 >= JSON.parse(localStorage.getItem("DictatorTrialValues") || "[]").length) {
-    window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-  } else {
-    location.reload();
   }
-}
-</script>
-<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
-<button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
-<div id="instructionContent">Loading...</div>
-</div>
-<script>
-function showInstructions() {
+
+  function showInstructions() {
     const condition = localStorage.getItem("Condition") || "DG";
     const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
 
     fetch(file)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("instructionContent").innerHTML = data;
-            document.getElementById("instructionModal").style.display = "block";
-        })
-        .catch(() => {
-            document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
-            document.getElementById("instructionModal").style.display = "block";
-        });
-}
-</script>
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("instructionContent").innerHTML = data;
+        document.getElementById("instructionModal").style.display = "block";
+      })
+      .catch(() => {
+        document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
+        document.getElementById("instructionModal").style.display = "block";
+      });
+  }
 
-<script>
-    // Simulated trial index (replace or integrate with your actual trial tracking logic)
-    let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
-
-    function getOrdinal(n) {
-        let s=["th","st","nd","rd"], v=n%100;
-        return n+(s[(v-20)%10]||s[v]||s[0]);
-    }
-
-    const playerLabel = getOrdinal(currentTrial) + " player";
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
-    });
-
-    // Increment for next load
+  // Trial label (ordinal)
+  let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
+  function getOrdinal(n) {
+    let s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+  const playerLabel = getOrdinal(currentTrial) + " player";
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
     sessionStorage.setItem("currentTrial", currentTrial + 1);
+  });
+
+  document.addEventListener("DOMContentLoaded", showGameAfterDelay);
 </script>
 </body>
 </html>

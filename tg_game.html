@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Trust Game</title>
-<style>
+  <meta charset="utf-8" />
+  <title>Trust Game</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       padding: 40px;
@@ -20,10 +18,7 @@
       border-left: 6px solid #3498db;
       margin-bottom: 30px;
     }
-    .row-label {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+    .row-label { font-weight: bold; margin-bottom: 5px; }
     .coin-row {
       display: flex;
       align-items: center;
@@ -31,15 +26,12 @@
       margin-bottom: 25px;
     }
     .coin {
-      width: 30px;
-      height: 30px;
+      width: 30px; height: 30px;
       background-color: #f1c40f;
       border-radius: 50%;
       margin: 2px;
     }
-    .coin.faded {
-      background-color: #e0e0e0;
-    }
+    .coin.faded { background-color: #e0e0e0; }
     .summary-text {
       font-size: 18px;
       margin-left: 15px;
@@ -56,136 +48,76 @@
     button {
       padding: 12px 24px;
       font-size: 16px;
-      background-color: #27ae60;
-      color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #2ecc71;
-    }
-    .waiting-screen {
+    .continue-button { background-color: #28a745; color: white; }
+    .instruction-button { background-color: #007bff; color: white; }
+    .exit-button { background-color: #dc3545; color: white; }
+    button:hover { opacity: 0.9; }
+    .button-container {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      font-weight: bold;
-      font-size: 20px;
-      text-align: center;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-<style>
-.button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    margin-top: 20px;
-}
-.button-common {
-    width: 220px;
-    padding: 12px 24px;
-    font-size: 16px;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin: 0;
-}
-.continue-button {
-    background-color: #28a745;
-}
-.instruction-button {
-    background-color: #007bff;
-}
-.exit-button {
-    background-color: #dc3545;
-}
-.continue-button:hover {
-    background-color: #1e7e34;
-}
-.instruction-button:hover {
-    background-color: #0056b3;
-}
-.exit-button:hover {
-    background-color: #c82333;
-}
-</style>
 
+<script>
+  window.responseTimes = window.responseTimes || {};
+  window.responseTimes.trustTrialTimes = JSON.parse(localStorage.getItem("trustDurations") || "[]");
+</script>
 
-<style>
-.instruction-button {
-    display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-.instruction-button:hover {
-    background-color: #0056b3;
-}
-</style>
 <h3 id="roundHeader"></h3>
-<div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 100vh; font-weight: bold; font-size: 20px; text-align: center;">
+<div id="waitingScreen" style="display: flex; justify-content: center; align-items: center; height: 200px; font-weight: bold; font-size: 20px; text-align: center;">
   Please wait while the&nbsp;<span id="playerLabel"></span>&nbsp;is making its decision...
 </div>
+
 <div id="gameContent" style="display: none;">
-<div class="role-box">
-<p><b><span id="playerLabel"></span></b> has an initial endowment of 12 coins and has chosen to send you a certain number of them.</p>
-<p>The amount <span id="playerLabel"></span> sent has been <strong>tripled</strong> before reaching you.</p>
+  <div class="role-box">
+    <p><b><span id="playerLabel"></span></b> has an initial endowment of 12 coins and has chosen to send you a certain number of them.</p>
+    <p>The amount <span id="playerLabel"></span> sent has been <strong>tripled</strong> before reaching you.</p>
+  </div>
+
+  <div class="coin-display">
+    <div class="row-label">Amount sent by <span id="playerLabel"></span>:</div>
+    <div class="coin-row" id="amountSentRow"></div>
+    <div class="row-label">Amount tripled:</div>
+    <div class="coin-row"><span class="summary-text" id="tripledSummary"></span></div>
+    <div class="row-label">Your initial endowment:</div>
+    <div class="coin-row"><span class="summary-text" id="endowmentSummary"></span></div>
+    <div class="row-label">Total amount in hand:</div>
+    <div class="coin-row"><span class="summary-text" id="totalSummary"></span></div>
+  </div>
+
+  <div class="input-box">
+    <label for="sendBack">How many coins do you want to send back to <b><span id="playerLabel"></span></b>?</label><br/>
+    <input id="sendBack" min="0" type="number"/>
+  </div>
+
+  <div class="button-container">
+    <button class="continue-button" onclick="submitDecision()">Continue</button>
+    <button class="instruction-button" onclick="showInstructions()">Instructions</button>
+    <button class="exit-button" onclick="confirmExit()">Exit Experiment</button>
+  </div>
 </div>
-<div class="coin-display">
-<div class="row-label">Amount sent by <span id="playerLabel"></span>:</div>
-<div class="coin-row" id="amountSentRow"></div>
-<div class="row-label">Amount tripled:</div>
-<div class="coin-row"><span class="summary-text" id="tripledSummary"></span></div>
-<div class="row-label">Your initial endowment:</div>
-<div class="coin-row"><span class="summary-text" id="endowmentSummary"></span></div>
-<div class="row-label">Total Amount in hand for that round:</div>
-<div class="coin-row"><span class="summary-text" id="totalSummary"></span></div>
-</div>
-<div class="input-box">
-<label for="sendBack">How many coins do you want to send back to <b><span id="playerLabel"></span></b>?</label><br/>
-<input id="sendBack" min="0" type="number"/>
-</div>
-<div class="button-container">
-<button class="button-common continue-button" onclick="submitDecision()">Continue</button>
-<button class="button-common instruction-button" onclick="showInstructions()">Instructions</button>
-<button class="button-common exit-button" onclick="confirmExit()">Exit Experiment</button>
-</div>
-</div>
+
 <script>
-  // Initialize trial index
   let trial = parseInt(localStorage.getItem("TrustTrial") || "0");
-  
-  // Fallback: generate trials if not present
+
   if (!localStorage.getItem("TrustTrialValues")) {
-    const high = Array.from({ length: 6 }, () => Math.floor(Math.random() * 5) + 8); // 8–12
-    const any = Array.from({ length: 4 }, () => Math.floor(Math.random() * 13));    // 0–12
+    const high = Array.from({ length: 6 }, () => Math.floor(Math.random() * 5) + 8);
+    const any = Array.from({ length: 4 }, () => Math.floor(Math.random() * 13));
     const combined = [...high, ...any].sort(() => Math.random() - 0.5);
     localStorage.setItem("TrustTrialValues", JSON.stringify(combined));
     localStorage.setItem("TrustTrial", "0");
   }
 
-  // Load trials
-  const trialValues = JSON.parse(localStorage.getItem("TrustTrialValues"));
-  const amountSent = trialValues ? trialValues[trial] : undefined;
-
-  if (!trialValues || !trialValues.length) {
-  alert("Could not load trust trial data. Please restart the experiment.");
-  window.location.href = "index.html";
-}
-
-// Do NOT error if amountSent is undefined — the game might be complete!
-
+  const trialValues = JSON.parse(localStorage.getItem("TrustTrialValues") || "[]");
+  const amountSent = trialValues[trial];
   const tripledAmount = amountSent * 3;
   const initialEndowment = 12;
   const totalInHand = tripledAmount + initialEndowment;
@@ -220,169 +152,119 @@
     document.getElementById("gameContent").style.display = "none";
 
     setTimeout(() => {
-      updateGameContent();
-      document.getElementById("waitingScreen").style.display = "none";
-      document.getElementById("gameContent").style.display = "block";
-    }, 3000);
-  } else {
-    // Skip waiting on final trial (you won't hit this unless logic is broken)
     updateGameContent();
+    document.getElementById("waitingScreen").style.display = "none";
+    document.getElementById("gameContent").style.display = "block";
+    window.responseTimes.trustStartTime = Date.now();
+    }, 3000);
+    } else {
+      updateGameContent();
+    }
   }
-}
-
 
   function submitDecision() {
-  const value = parseInt(document.getElementById("sendBack").value, 10);
-  if (isNaN(value)) {
-    alert("Please enter the number of coins to send back.");
-    return;
-  }
-  if (value > totalInHand) {
-    alert(`You cannot send back more than ${totalInHand} coins.`);
-    return;
-  }
+    const sentBackVal = parseInt(document.getElementById("sendBack").value, 10);
+    if (isNaN(sentBackVal) || sentBackVal < 0 || sentBackVal > totalInHand) {
+      alert("Please enter a valid number of coins to send back.");
+      return;
+    }
 
-  // Update trial count and navigate
-  trial++;
-  if (trial >= trialValues.length) {
-    const order = localStorage.getItem("SurveyOrder");
-    const nextPage = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-    window.location.href = nextPage;
-  } else {
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+    received[trial] = tripledAmount;
+    sentBack[trial] = sentBackVal;
+
+    localStorage.setItem("received", JSON.stringify(received));
+    localStorage.setItem("sentBack", JSON.stringify(sentBack));
+
+    const totalEach = received.map((val, i) => (val || 0) + (sentBack[i] || 0));
+    const actualAvg = totalEach.reduce((a, b) => a + b, 0) / totalEach.length;
+    const expectedAvg = parseFloat(localStorage.getItem("expectedAverage")) || 0;
+    const diff = actualAvg - expectedAvg;
+
+    localStorage.setItem("actualAverage", actualAvg.toFixed(1));
+    localStorage.setItem("difference", diff.toFixed(1));
+
+    const trustResults = JSON.parse(localStorage.getItem("TrustResults") || "[]");
+    trustResults.push({
+      trial: trial + 1,
+      received: tripledAmount,
+      sentBack: sentBackVal,
+      totalInHand
+    });
+    localStorage.setItem("TrustResults", JSON.stringify(trustResults));
+
+    const endTime = Date.now();
+    const duration = endTime - window.responseTimes.trustStartTime;
+    window.responseTimes.trustTrialTimes.push(duration);
+    window.responseTimes.trustStartTime = endTime;
+    localStorage.setItem("trustDurations", JSON.stringify(window.responseTimes.trustTrialTimes));
+
+    trial++;
     localStorage.setItem("TrustTrial", trial.toString());
-    location.reload();
+
+    if (trial >= trialValues.length) {
+      const order = localStorage.getItem("SurveyOrder");
+      const nextPage = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
+      window.location.href = nextPage;
+    } else {
+      location.reload();
+    }
   }
-}
 
   document.addEventListener("DOMContentLoaded", showGameAfterDelay);
 </script>
+
 <script>
 function confirmExit() {
-    const confirmed = confirm("Are you sure you want to exit the experiment? Your data will be deleted.");
-    if (confirmed) {
-        localStorage.clear();
-        sessionStorage.clear();
-        document.cookie.split(";").forEach(function(c) {
-            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
-        });
-        window.location.href = "index.html";
-    }
-}
-</script>
-<script>// Injected storage for tg_game.html
-try {
-
-localStorage.setItem("received", JSON.stringify(received));
-localStorage.setItem("sentBack", JSON.stringify(sentBack));
-localStorage.setItem("expectedAverage", expectedAverage.toString());
-localStorage.setItem("actualAverage", actualAverage.toString());
-localStorage.setItem("difference", difference.toString());
-
-} catch(e) { console.warn(e); }
-</script>
-<form id="gameDataForm" style="display: none;">
-<input id="inputReceived" name="received" type="hidden"/>
-<input id="inputSentBack" name="sentBack" type="hidden"/>
-<input id="inputTotal" name="total" type="hidden"/>
-</form>
-<script>
-// GameResults: Reliable form-driven storage
-function updateGameContent() {
-  document.getElementById("roundHeader").textContent = `Round ${trial + 1} of ${trialValues.length}`;
-  drawSentRow("amountSentRow", amountSent);
-  document.getElementById("tripledSummary").textContent = `${tripledAmount} × 🟡`;
-  document.getElementById("endowmentSummary").textContent = `${initialEndowment} × 🟡`;
-  document.getElementById("totalSummary").textContent = `${totalInHand} × 🟡`;
-  document.getElementById("sendBack").max = totalInHand;
-
-  // Populate hidden input with received value
-  document.getElementById("inputReceived").value = tripledAmount;
-}
-
-function submitDecision() {
-  const sentBackVal = parseInt(document.getElementById("sendBack").value, 10);
-  if (isNaN(sentBackVal)) {
-    alert("Please enter the number of coins to send back.");
-    return;
-  }
-
-  // Get values from hidden and visible inputs
-  const receivedVal = parseInt(document.getElementById("inputReceived").value, 10);
-  const totalVal = receivedVal + sentBackVal;
-
-  document.getElementById("inputSentBack").value = sentBackVal;
-  document.getElementById("inputTotal").value = totalVal;
-
-  // Store values into localStorage
-  const trial = parseInt(localStorage.getItem("TrustTrial") || "0");
-
-  const received = JSON.parse(localStorage.getItem("received") || "[]");
-  const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
-
-  received[trial] = receivedVal;
-  sentBack[trial] = sentBackVal;
-
-  localStorage.setItem("received", JSON.stringify(received));
-  localStorage.setItem("sentBack", JSON.stringify(sentBack));
-
-  const totalEachTrial = received.map((amt, i) => amt + (sentBack[i] || 0));
-  const actualAverage = totalEachTrial.reduce((a, b) => a + b, 0) / totalEachTrial.length;
-  const expectedAverage = parseFloat(localStorage.getItem("expectedAverage")) || 0;
-  const difference = actualAverage - expectedAverage;
-
-  localStorage.setItem("totalEachTrial", JSON.stringify(totalEachTrial));
-  localStorage.setItem("actualAverage", actualAverage.toFixed(1));
-  localStorage.setItem("difference", difference.toFixed(1));
-
-  localStorage.setItem("TrustTrial", (trial + 1).toString());
-
-  // Proceed
-  if (trial + 1 >= JSON.parse(localStorage.getItem("TrustTrialValues") || "[]").length) {
-    const order = localStorage.getItem("SurveyOrder");
-    window.location.href = order === "PANAS_first" ? "panas_post.html" : "stais_post.html";
-  } else {
-    location.reload();
+  if (confirm("Are you sure you want to exit the experiment? Your data will be deleted.")) {
+    localStorage.clear();
+    sessionStorage.clear();
+    document.cookie.split(";").forEach(function(c) {
+      document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+    });
+    window.location.href = "index.html";
   }
 }
 </script>
-<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
-<button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
-<div id="instructionContent">Loading...</div>
-</div>
+
 <script>
 function showInstructions() {
-    const condition = localStorage.getItem("Condition") || "DG";
-    const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+  const condition = localStorage.getItem("Condition") || "DG";
+  const file = condition === "TG" ? "your_task_tg.html" : "your_task_dg.html";
 
-    fetch(file)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("instructionContent").innerHTML = data;
-            document.getElementById("instructionModal").style.display = "block";
-        })
-        .catch(() => {
-            document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
-            document.getElementById("instructionModal").style.display = "block";
-        });
+  fetch(file)
+    .then(res => res.text())
+    .then(data => {
+      const modal = document.getElementById("instructionModal");
+      document.getElementById("instructionContent").innerHTML = data;
+      modal.style.display = "block";
+    })
+    .catch(() => {
+      document.getElementById("instructionContent").innerHTML = "Failed to load instructions.";
+      document.getElementById("instructionModal").style.display = "block";
+    });
 }
 </script>
 
+<div id="instructionModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:2px solid #888; padding:20px; overflow:auto; z-index:1000;">
+  <button onclick="document.getElementById('instructionModal').style.display='none'" style="float:right;">Close</button>
+  <div id="instructionContent">Loading...</div>
+</div>
+
 <script>
-    // Simulated trial index (replace or integrate with your actual trial tracking logic)
-    let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
+  let currentTrial = parseInt(sessionStorage.getItem("currentTrial") || "1");
 
-    function getOrdinal(n) {
-        let s=["th","st","nd","rd"], v=n%100;
-        return n+(s[(v-20)%10]||s[v]||s[0]);
-    }
+  function getOrdinal(n) {
+    let s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
 
-    const playerLabel = getOrdinal(currentTrial) + " player";
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
-    });
-
-    // Increment for next load
-    sessionStorage.setItem("currentTrial", currentTrial + 1);
+  const playerLabel = getOrdinal(currentTrial) + " player";
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("#playerLabel").forEach(el => el.textContent = playerLabel);
+  });
+  sessionStorage.setItem("currentTrial", currentTrial + 1);
 </script>
 </body>
 </html>

@@ -14,6 +14,10 @@
   </style>
 </head>
 <body>
+<script>
+  window.responseTimes = window.responseTimes || {};
+  window.responseTimes.staisStart = Date.now();
+</script>
 <h2>Survey (Pre)</h2>
 <div class="scale-title">
 <b>Instructions:</b><br/><br/>
@@ -65,8 +69,12 @@
   const task = localStorage.getItem("Condition");
 
   if (order === "STAIS_first") {
+    const staisEnd = Date.now();
+    localStorage.setItem("staisDuration", staisEnd - window.responseTimes.staisStart);
     window.location.href = "panas.html";
   } else {
+    const staisEnd = Date.now();
+    localStorage.setItem("staisDuration", staisEnd - window.responseTimes.staisStart);
     window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
   }
   });
@@ -114,16 +122,6 @@ function confirmExit() {
         });
         window.location.href = "index.html";
     }
-}
-</script>
-
-
-
-<script>// Injected storage for stais.html
-try {
-    localStorage.setItem("STAIS", JSON.stringify(surveyResponses));
-} catch (e) {
-    console.warn("Failed to store stais.html data:", e);
 }
 </script>
 </body>

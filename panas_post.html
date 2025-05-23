@@ -13,6 +13,10 @@
   </style>
 </head>
 <body>
+<script>
+  window.responseTimes = window.responseTimes || {};
+  window.responseTimes.panasPostStart = Date.now();
+</script>
 <h2>Survey (Post)</h2>
 <div class="scale-title">
 <b>Instructions:</b><br/><br/>
@@ -53,37 +57,6 @@
   </button>
 </div>
 </form>
-<script>
-  document.getElementById("panasForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const form = new FormData(this);
-    const data = {};
-    let complete = true;
-    for (let item of ['Interested', 'Distressed', 'Excited', 'Upset', 'Strong', 'Guilty', 'Scared', 'Hostile',
-                      'Enthusiastic', 'Proud', 'Irritable', 'Alert', 'Ashamed', 'Inspired', 'Nervous',
-                      'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid']) {
-      const val = form.get(item);
-      if (!val) complete = false;
-      data[item] = val;
-    }
-    if (!complete) {
-      alert("Please complete all items.");
-      return;
-    }
-
-    localStorage.setItem("PANAS_post", JSON.stringify(data));
-    const order = localStorage.getItem("SurveyOrder");
-    const current = window.location.pathname;
-
-    if (order === "PANAS_first") {
-      // This is the first post-survey → go to STAIS next
-      window.location.href = "stais_post.html";
-    } else {
-      // PANAS was second → done
-      window.location.href = "debrief.html";
-    }
-  });
-</script>
 
 <!--
 <script>
@@ -130,61 +103,46 @@ function confirmExit() {
     }
 }
 </script>
-
-
-
+    
 <script>
-// SurveyStorage: Save PANAS_Post responses
-try {
-    const surveyResponses = {};
-    document.querySelectorAll('input[name]:checked, input[type=text], select').forEach(input => {
-        surveyResponses[input.name] = input.value;
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("panasForm");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    let complete = true;
+
+    const items = [
+      'Interested', 'Distressed', 'Excited', 'Upset', 'Strong', 'Guilty', 'Scared', 'Hostile',
+      'Enthusiastic', 'Proud', 'Irritable', 'Alert', 'Ashamed', 'Inspired', 'Nervous',
+      'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid'
+    ];
+
+    items.forEach(item => {
+      const val = formData.get(item);
+      if (!val) complete = false;
+      data[item] = val;
     });
-    localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
-} catch (e) {
-    console.warn("Failed to store PANAS_Post responses:", e);
-}
-</script>
 
+    if (!complete) {
+      alert("Please complete all items.");
+      return;
+    }
 
+    // Store responses
+    localStorage.setItem("PANAS_post", JSON.stringify(data));
 
-<script>// Injected storage for panas_post.html
-try {
-    localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
-} catch (e) {
-    console.warn("Failed to store panas_post.html data:", e);
-}
-</script>
+    // Save response time
+    const end = Date.now();
+    const start = window.responseTimes?.panasPostStart || end;
+    const duration = end - start;
+    localStorage.setItem("panasPostDuration", duration);
 
-<script>
-// PostSurveyStorage for PANAS_Post
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
-    if (!form) return;
-
-    form.addEventListener("submit", function() {
-        const surveyResponses = {};
-        form.querySelectorAll("input[name]:checked, input[type='text'], select").forEach(input => {
-            surveyResponses[input.name] = input.value;
-        });
-        localStorage.setItem("PANAS_Post", JSON.stringify(surveyResponses));
-    });
-});
-</script>
-
-<script>
-// PostSurveyRedirect
-document.addEventListener("DOMContentLoaded", function() {
-  const form = document.querySelector("form");
-  if (!form) return;
-
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
+    // Redirect logic
     const order = localStorage.getItem("SurveyOrder");
-    const next = order === "PANAS_first"
-      ? "stais_post.html"
-      : "bonus.html";
-    window.location.href = next;
+    window.location.href = order === "PANAS_first" ? "stais_post.html" : "debrief.html";
   });
 });
 </script>
