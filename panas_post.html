@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+
     const formData = new FormData(form);
     const data = {};
     let complete = true;
@@ -120,27 +121,26 @@ document.addEventListener("DOMContentLoaded", function () {
       'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid'
     ];
 
-    items.forEach(item => {
+    for (let item of items) {
       const val = formData.get(item);
       if (!val) complete = false;
-      data[item] = val;
-    });
+      data[item] = parseInt(val);  // ✅ ensure values are numbers like in STAIS
+    }
 
     if (!complete) {
       alert("Please complete all items.");
       return;
     }
 
-    // Store responses
+    // Store data under exact key
     localStorage.setItem("PANAS_Post", JSON.stringify(data));
-    console.log("PANAS Post responses saved:", data);
-    // Save response time
+
+    // Track timing
     const end = Date.now();
     const start = window.responseTimes?.panasPostStart || end;
-    const duration = end - start;
-    localStorage.setItem("panasPostDuration", duration);
+    localStorage.setItem("panasPostDuration", end - start);
 
-    // Redirect logic
+    // Redirect like before
     const order = localStorage.getItem("SurveyOrder");
     window.location.href = order === "PANAS_first" ? "stais_post.html" : "debrief.html";
   });

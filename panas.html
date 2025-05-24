@@ -58,48 +58,57 @@
 </div>
 </form>
 <script>
-    document.getElementById("panasForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const form = new FormData(this);
-      const data = {};
-      let complete = true;
-      for (let item of ['Interested', 'Distressed', 'Excited', 'Upset', 'Strong', 'Guilty', 'Scared', 'Hostile', 'Enthusiastic', 'Proud', 'Irritable', 'Alert', 'Ashamed', 'Inspired', 'Nervous', 'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid']) {
-        const val = form.get(item);
-        if (!val) complete = false;
-        data[item] = val;
-      }
-      if (!complete) {
-        alert("Please complete all items.");
-        return;
-      }
-      const isPost = window.location.pathname.includes("post");
-      localStorage.setItem(isPost ? "PANAS_Post" : "PANAS", JSON.stringify(data));
-      const order = localStorage.getItem("SurveyOrder");
-      const task = localStorage.getItem("Condition");
-      
-      if (isPost) {
-        if (order === "PANAS_first") {
-          const panasEnd = Date.now();
-          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
-          window.location.href = "stais_post.html";
-        } else {
-          const panasEnd = Date.now();
-          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
-          window.location.href = "debrief.html";
-        }
+  document.getElementById("panasForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = new FormData(this);
+    const data = {};
+    let complete = true;
+
+    const items = [
+      'Interested', 'Distressed', 'Excited', 'Upset', 'Strong', 'Guilty', 'Scared', 'Hostile',
+      'Enthusiastic', 'Proud', 'Irritable', 'Alert', 'Ashamed', 'Inspired', 'Nervous',
+      'Determined', 'Attentive', 'Jittery', 'Active', 'Afraid'
+    ];
+
+    for (let item of items) {
+      const val = form.get(item);
+      if (!val) complete = false;
+      data[item] = val;
+    }
+
+    if (!complete) {
+      alert("Please complete all items.");
+      return;
+    }
+
+    // Save to localStorage in the expected key
+    const isPost = window.location.pathname.includes("post");
+    localStorage.setItem(isPost ? "PANAS_Post" : "PANAS", JSON.stringify(data));
+
+    // Save response time
+    const panasEnd = Date.now();
+    localStorage.setItem(isPost ? "panasPostDuration" : "panasDuration", panasEnd - window.responseTimes.panasStart);
+
+    // Decide where to go next
+    const order = localStorage.getItem("SurveyOrder");
+    const task = localStorage.getItem("Condition");
+
+    if (isPost) {
+      if (order === "PANAS_first") {
+        window.location.href = "stais_post.html";
       } else {
-        if (order === "PANAS_first") {
-          const panasEnd = Date.now();
-          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
-          window.location.href = "stais.html";
-        } else {
-          const panasEnd = Date.now();
-          localStorage.setItem("panasDuration", panasEnd - window.responseTimes.panasStart);
-          window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
-        }
+        window.location.href = "debrief.html";
       }
-    });
-  </script>
+    } else {
+      if (order === "PANAS_first") {
+        window.location.href = "stais.html";
+      } else {
+        window.location.href = task === "TG" ? "your_task_tg.html" : "your_task_dg.html";
+      }
+    }
+  });
+</script>
 
 <!--
 <script>

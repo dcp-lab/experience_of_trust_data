@@ -53,10 +53,21 @@
       ? parseFloat((actualAverage - estimate.averageExpected).toFixed(2))
       : null;
 
+    const condition = localStorage.getItem("Condition");
+    // Clean up irrelevant duration key
+    if (condition === "TG") {
+      localStorage.removeItem("dictatorDurations");
+    } else {
+      localStorage.removeItem("trustDurations");
+    }
+
+    const durationKey = condition === "TG" ? "trustDurations" : "dictatorDurations";
+    const durations = JSON.parse(localStorage.getItem(durationKey) || "[]");
+
     const data = {
       timestamp: new Date().toISOString(),
       prolificID,
-      condition: localStorage.getItem("Condition"),
+      condition,
       estimate,
       game: {
         received,
@@ -80,8 +91,7 @@
         stais: localStorage.getItem("staisDuration"),
         panasPost: localStorage.getItem("panasPostDuration"),
         staisPost: localStorage.getItem("staisPostDuration"),
-        trustDurations: JSON.parse(localStorage.getItem("trustDurations") || "[]"),
-        dictatorDurations: JSON.parse(localStorage.getItem("dictatorDurations") || "[]")
+        [durationKey]: durations // ✅ only one: either trustDurations or dictatorDurations
       }
     };
 
@@ -103,5 +113,6 @@
     }
   };
 </script>
+
 </body>
 </html>

@@ -63,33 +63,34 @@
 
   // Main form logic with response time
   document.getElementById("staisForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const form = new FormData(this);
-    let complete = true;
-    const responses = {};
-    for (let i = 0; i < 10; i++) {
-      const val = form.get("q" + i);
-      if (!val) complete = false;
-      responses["q" + i] = val;
-    }
-    if (!complete) {
-      alert("Please answer all questions before continuing.");
-      return;
-    }
+  e.preventDefault();
+  const form = new FormData(this);
+  let complete = true;
+  const responses = {};
+  for (let i = 0; i < 10; i++) {
+    const val = form.get("q" + i);
+    if (!val) complete = false;
+    responses["q" + i] = parseInt(val);  // ✅ fix: ensure numeric
+  }
+  if (!complete) {
+    alert("Please answer all questions before continuing.");
+    return;
+  }
 
-    // Store survey data
-    localStorage.setItem("STAIS_Post", JSON.stringify(responses));
+  // Store survey data
+  localStorage.setItem("STAIS_Post", JSON.stringify(responses));
 
-    // Store response time
-    const end = Date.now();
-    const start = window.responseTimes?.staisPostStart || end;
-    const duration = end - start;
-    localStorage.setItem("staisPostDuration", duration);
+  // Store response time
+  const end = Date.now();
+  const start = window.responseTimes?.staisPostStart || end;
+  const duration = end - start;
+  localStorage.setItem("staisPostDuration", duration);
 
-    // Redirect logic
-    const order = localStorage.getItem("SurveyOrder");
-    window.location.href = order === "STAIS_first" ? "panas_post.html" : "debrief.html";
-  });
+  // Redirect logic
+  const order = localStorage.getItem("SurveyOrder");
+  window.location.href = order === "STAIS_first" ? "panas_post.html" : "debrief.html";
+});
+
 </script>
 </body>
 </html>
