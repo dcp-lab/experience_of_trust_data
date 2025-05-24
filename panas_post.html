@@ -132,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Store responses
-    localStorage.setItem("PANAS_post", JSON.stringify(data));
-
+    localStorage.setItem("PANAS_Post", JSON.stringify(data));
+    console.log("PANAS Post responses saved:", data);
     // Save response time
     const end = Date.now();
     const start = window.responseTimes?.panasPostStart || end;

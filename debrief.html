@@ -8,65 +8,100 @@
     h2, h3 { color: #003366; }
     button { margin-top: 40px; padding: 12px 24px; font-size: 16px; }
   </style>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
-  <script>
-    const firebaseConfig = {'apiKey': 'AIzaSyB1tCBNHHdRoZHqUOXtIAWT0HvBxziLBcc', 'authDomain': 'experience-of-trust.firebaseapp.com', 'projectId': 'experience-of-trust', 'storageBucket': 'experience-of-trust.appspot.com', 'messagingSenderId': '1003265454698', 'appId': '1:1003265454698:web:95a089a7aa529327751013', 'measurementId': 'G-LJLNEVQ0H7'};
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore(app);
-  </script>
 </head>
 <body>
   <h2>Debrief</h2>
   <p><b>Thank you for participating in this experiment.</b></p>
   <p>The purpose of this study is to <b>explore how receiving trust in economic interactions impacts individuals' well-being.</b></p>
-  <p>In particular, we are interested in <b>how being trusted by another person during a decision-making task influences emotional affect and anxiety levels.</b></p>
-  <p>You were deliberately assigned the role of <b>Player B</b>, and in each trial you received an amount (tripled) from another participant, simulating a situation of trust. 
-    Your responses during the game and in the surveys will help us better understand the psychological effects of trust-based interactions.</p>
-  <p>All of your responses have been recorded and anonymized. If you have any questions or wish to know more about the study, feel free to contact the research team at <i>dcp-lab@ucl.ac.uk</i>.</p>
-  <p><b>Please press "End Experiment" button to complete the experiment and be redirected to Prolific.</b></p>
+  <p>You were deliberately assigned the role of <b>Player B</b>. Your responses during the game and in the surveys will help us better understand the psychological effects of trust-based interactions.</p>
+  <p><b>Please press "End Experiment" to complete the experiment and download your data.</b></p>
+  
   <button onclick="endExperiment()">End Experiment</button>
 
-  <script>
-    function endExperiment() {
-      const prolificID = localStorage.getItem("ProlificID") || "anon_" + Date.now();
-      const data = {
-        timestamp: new Date().toISOString(),
-        prolificID: prolificID,
-        condition: localStorage.getItem("Condition"),
-        estimate: JSON.parse(localStorage.getItem("Estimate") || "{}"),
-        received: JSON.parse(localStorage.getItem("received") || "[]"),
-        sentBack: JSON.parse(localStorage.getItem("sentBack") || "[]"),
-        surveys: {
-          SSVS: JSON.parse(localStorage.getItem("SSVS") || "{}"),
-          PANAS: JSON.parse(localStorage.getItem("PANAS") || "{}"),
-          STAIS: JSON.parse(localStorage.getItem("STAIS") || "{}"),
-          PANAS_Post: JSON.parse(localStorage.getItem("PANAS_Post") || "{}"),
-          STAIS_Post: JSON.parse(localStorage.getItem("STAIS_Post") || "{}")
-        },
-        timings: {
-          ssvs: localStorage.getItem("ssvsDuration"),
-          panas: localStorage.getItem("panasDuration"),
-          stais: localStorage.getItem("staisDuration"),
-          panasPost: localStorage.getItem("panasPostDuration"),
-          staisPost: localStorage.getItem("staisPostDuration"),
-          trustDurations: JSON.parse(localStorage.getItem("trustDurations") || "[]"),
-          dictatorDurations: JSON.parse(localStorage.getItem("dictatorDurations") || "[]")
-        }
-      };
+  <script type="module">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
-      db.collection("participants").doc(prolificID).set(data)
-        .then(() => {
-          console.log("Data saved.");
-          window.location.href = "https://app.prolific.com/submissions/complete?cc=72AAC84F";
-        })
-        .catch(error => {
-          console.error("Error saving to Firestore:", error);
-          alert("An error occurred while saving your data. Please contact the researcher.");
-        });
+  const firebaseConfig = {
+    apiKey: "AIzaSyB1tCBNHHdRoZHqUOXtIAWT0HvBxziLBcc",
+    authDomain: "experience-of-trust.firebaseapp.com",
+    projectId: "experience-of-trust",
+    storageBucket: "experience-of-trust.appspot.com",
+    messagingSenderId: "1003265454698",
+    appId: "1:1003265454698:web:95a089a7aa529327751013",
+    measurementId: "G-LJLNEVQ0H7"
+  };
+
+  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+  const db = getFirestore(app);
+
+  window.endExperiment = async function () {
+    const prolificID = localStorage.getItem("ProlificID") || `anon_${Date.now()}`;
+    const estimate = JSON.parse(localStorage.getItem("Estimate") || "{}");
+
+    const received = JSON.parse(localStorage.getItem("received") || "[]");
+    const sentBack = JSON.parse(localStorage.getItem("sentBack") || "[]");
+    const before = received.map(r => r + 12);
+    const after = before.map((b, i) => b - (sentBack[i] || 0));
+
+    const totalAfter = after.reduce((sum, val) => sum + val, 0);
+    const bonus = parseFloat((totalAfter * 0.002).toFixed(2));
+
+    const averageReceived = received.reduce((sum, val) => sum + val, 0) / received.length;
+    const actualAverage = averageReceived / 3;
+    const correctedDifference = estimate.averageExpected !== undefined
+      ? parseFloat((actualAverage - estimate.averageExpected).toFixed(2))
+      : null;
+
+    const data = {
+      timestamp: new Date().toISOString(),
+      prolificID,
+      condition: localStorage.getItem("Condition"),
+      estimate,
+      game: {
+        received,
+        before,
+        sentBack,
+        after,
+        bonus,
+        actualAverage: parseFloat(actualAverage.toFixed(2)),
+        correctedDifference
+      },
+      surveys: {
+        SSVS: JSON.parse(localStorage.getItem("SSVS") || "{}"),
+        STAIS: JSON.parse(localStorage.getItem("STAIS") || "{}"),
+        STAIS_Post: JSON.parse(localStorage.getItem("STAIS_Post") || "{}"),
+        PANAS: JSON.parse(localStorage.getItem("PANAS") || "{}"),
+        PANAS_Post: JSON.parse(localStorage.getItem("PANAS_Post") || "{}")
+      },
+      timings: {
+        ssvs: localStorage.getItem("ssvsDuration"),
+        panas: localStorage.getItem("panasDuration"),
+        stais: localStorage.getItem("staisDuration"),
+        panasPost: localStorage.getItem("panasPostDuration"),
+        staisPost: localStorage.getItem("staisPostDuration"),
+        trustDurations: JSON.parse(localStorage.getItem("trustDurations") || "[]"),
+        dictatorDurations: JSON.parse(localStorage.getItem("dictatorDurations") || "[]")
+      }
+    };
+
+    function clean(obj) {
+      if (Array.isArray(obj)) return obj.map(clean);
+      if (typeof obj === "object" && obj !== null) {
+        return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined).map(([k, v]) => [k, clean(v)]));
+      }
+      return obj;
     }
-  </script>
+
+    try {
+      await setDoc(doc(db, "participants", prolificID), clean(data));
+      console.log("Data saved.");
+      window.location.href = "https://app.prolific.com/submissions/complete?cc=72AAC84F";
+    } catch (err) {
+      console.error("Error saving to Firestore:", err);
+      alert("An error occurred while saving your data. Please contact the researcher.");
+    }
+  };
+</script>
 </body>
 </html>

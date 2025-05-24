@@ -73,7 +73,7 @@
         return;
       }
       const isPost = window.location.pathname.includes("post");
-      localStorage.setItem(isPost ? "PANAS_post" : "PANAS_pre", JSON.stringify(data));
+      localStorage.setItem(isPost ? "PANAS_Post" : "PANAS", JSON.stringify(data));
       const order = localStorage.getItem("SurveyOrder");
       const task = localStorage.getItem("Condition");
       
