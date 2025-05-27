@@ -23,13 +23,13 @@
   import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyB1tCBNHHdRoZHqUOXtIAWT0HvBxziLBcc",
-    authDomain: "experience-of-trust.firebaseapp.com",
-    projectId: "experience-of-trust",
-    storageBucket: "experience-of-trust.appspot.com",
-    messagingSenderId: "1003265454698",
-    appId: "1:1003265454698:web:95a089a7aa529327751013",
-    measurementId: "G-LJLNEVQ0H7"
+    apiKey: "AIzaSyCq2k2tpPCnWG8S3LRH84hn6se3pZEUCxc",
+    authDomain: "social-interactions-d749d.firebaseapp.com",
+    projectId: "social-interactions-d749d",
+    storageBucket: "social-interactions-d749d.appspot.com",  // fixed typo here
+    messagingSenderId: "500324999767",
+    appId: "1:500324999767:web:5a1995797b43bbae0a3912",
+    measurementId: "G-8VXT471LGP"
   };
 
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
@@ -54,7 +54,6 @@
       : null;
 
     const condition = localStorage.getItem("Condition");
-    // Clean up irrelevant duration key
     if (condition === "TG") {
       localStorage.removeItem("dictatorDurations");
     } else {
@@ -91,7 +90,7 @@
         stais: localStorage.getItem("staisDuration"),
         panasPost: localStorage.getItem("panasPostDuration"),
         staisPost: localStorage.getItem("staisPostDuration"),
-        [durationKey]: durations // ✅ only one: either trustDurations or dictatorDurations
+        [durationKey]: durations
       }
     };
 
@@ -113,6 +112,7 @@
     }
   };
 </script>
+
 
 </body>
 </html>
