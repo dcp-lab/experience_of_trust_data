@@ -19,7 +19,7 @@
   <script>
     function startExperiment() {
       // Set survey and game condition
-      const condition = Math.random() < 0.5 ? "DG" : "TG";
+      const condition = Math.random() < 0.5 ? "TG" : "DG" ;
       const order = Math.random() < 0.5 ? "PANAS_first" : "STAIS_first";
       localStorage.setItem("Condition", condition);
       localStorage.setItem("SurveyOrder", order);
